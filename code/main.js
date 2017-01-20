@@ -2,10 +2,10 @@ var glState = glState||{};
 
 glState.MainState = class {
 	constructor() {
-		this.spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	}
 	create() {
 		this.add.sprite(0,0,"bg");
+		this.spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.spacebar.onDown.add(this.startGame, this);
 	}
 	startGame(){
