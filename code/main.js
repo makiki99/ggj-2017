@@ -4,7 +4,8 @@ glState.MainState = class {
 	constructor() {
 	}
 	create() {
-		this.add.sprite(0,0,"bg");
+		this.add.sprite(0,0,"bg1");
+		this.add.sprite(68,54,"glass");
 		this.spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.spacebar.onDown.add(this.startGame, this);
 	}
