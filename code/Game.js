@@ -1,6 +1,6 @@
 var glState = glState||{};
 
-glState.MainState = class {
+glState.Game = class {
 	constructor() {
 		this.bullets = [];
 	}
