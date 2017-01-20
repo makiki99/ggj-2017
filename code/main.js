@@ -2,7 +2,7 @@ var glState = glState||{};
 
 glState.MainState = class {
 	constructor() {
-
+		
 	}
 	create() {
 		this.add.sprite(0,0,"bg");
