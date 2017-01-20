@@ -2,13 +2,48 @@ var glState = glState||{};
 
 glState.Game = class {
 	constructor() {
+		let self = this;
+		this.BORDER_LEFT = 90;
+		this.BORDER_RIGHT = 610;
+		this.BORDER_UP = 100;
+		this.BORDER_DOWN = 300;
 		this.bulletPtr = 0;
 		this.ms = 0;
 		this.score = 0;
 		this.frameTimer = 0;
+		let generateBullets = function*() {
+			let pattern = 0;
+			let data = {};
+			while (true) {
+				switch (pattern) {
+					case 0:
+						data.x = Math.floor(Math.random()*2)*520+90;
+						data.y = Math.random()*200+100;
+						if (data.x > 400) {
+							data.vx = -100;
+						} else {
+							data.vx = 100;
+						}
+						for (let i = 0; i < 10; i++) {
+							self.shoot(self.bowl, {
+								vx: data.vx,
+								x: data.x,
+								y: data.y,
+								absoluteX: true,
+								absoluteY: true,
+							});
+							yield;
+							}
+						yield;
+						break;
+					default:
+
+				}
+			}
+		};
+		this.spawnBullets = generateBullets();
 	}
 	create() {
-		//game.world.setBounds(68, 75, 568, 448);
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
 		this.add.sprite(0,0,"bg2");
 		this.player = this.add.sprite(128,128,"player");
@@ -50,11 +85,6 @@ glState.Game = class {
 			retStr += scoreStr;
 			return retStr;
 		})();
-
-		this.bullets = this.add.group();
-		for (let i = 0; i < 2000; i++) {
-			this.bullets.add(new Bullet());
-		}
 		//bounds
 		this.bounds = [
 			this.add.sprite(null,0,0),
@@ -67,10 +97,10 @@ glState.Game = class {
 			i.body.immovable = true;
 			i.visible = false;
 		});
-		this.bounds[0].body.setSize(68,600,0,0); //left
-		this.bounds[1].body.setSize(400,600,622,0); //right
-		this.bounds[2].body.setSize(800,75,0,0); //top
-		this.bounds[3].body.setSize(800,400,0,320); //bottom
+		this.bounds[0].body.setSize(this.BORDER_LEFT,600,0,0); //left
+		this.bounds[1].body.setSize(400,600,this.BORDER_RIGHT,0); //right
+		this.bounds[2].body.setSize(800,this.BORDER_UP,0,0); //top
+		this.bounds[3].body.setSize(800,400,0,this.BORDER_DOWN); //bottom
 	}
 	update() {
 		// temp
@@ -105,7 +135,7 @@ glState.Game = class {
 				}
 			}
 		});
-		this.spawnBullets();
+		this.spawnBullets.next();
 		this.frameTimer++;
 	}
 	movePlayer() {
@@ -145,7 +175,7 @@ glState.Game = class {
 		opts.lifespan = (opts.lifespan === undefined) ? 0 : opts.lifespan;
 		opts.waveY = (opts.waveY === undefined) ? 0 : opts.waveY;
 		opts.waveX = (opts.waveX === undefined) ? 0 : opts.waveX;
-		opts.img = (opts.waveX === undefined) ? "fire" : opts.waveX;
+		opts.img = (opts.img === undefined) ? "fire" : opts.img;
 
 		if (!opts.absoluteX) {
 			opts.x += src.x;
@@ -177,8 +207,5 @@ glState.Game = class {
 	counttime() {
 		this.ms++;
 		this.score = this.ms * 100;
-	}
-	spawnBullets(){
-
 	}
 };

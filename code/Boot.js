@@ -10,7 +10,7 @@ glState.Boot = class {
 		this.load.image("bg2","assets/mainmenu2.png");
 		this.load.image("glass","assets/glass.png");
 		this.load.image("bowl","assets/bowl.png");
-		this.load.image("fire","assets/fire_placeholder.png");
+		this.load.image("fire","assets/fire.png");
 		this.load.image("popcorn","assets/fire_placeholder.png");
 		this.load.image("player","assets/player.png");
 	}
