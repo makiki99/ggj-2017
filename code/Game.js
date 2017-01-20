@@ -10,7 +10,7 @@ glState.Game = class {
 	create() {
 		//game.world.setBounds(68, 75, 568, 448);
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
-		this.add.sprite(0,0,"bg");
+		this.add.sprite(0,0,"bg2");
 		this.player = this.add.sprite(128,128,"player");
 		game.physics.arcade.enable(this.player);
 		this.player.body.setCircle(2);
@@ -26,6 +26,8 @@ glState.Game = class {
 		for (var i = 0; i < 2000; i++) {
 			this.bullets.add(new Bullet());
 		}
+		this.bowl = this.add.sprite(240,340,"bowl");
+		this.add.sprite(68,54,"glass");
 
 		//Punkty/Timer
 		this.timer = game.time.create(false);
@@ -33,9 +35,21 @@ glState.Game = class {
 		this.timer.start();
 
 		//Display score
-		this.displayscore = this.game.add.text(500, 500, "", { fill:"#ffffff"} );
+		this.scoreInfo = this.game.add.text(666, 90, "", { fill:"#ffffff" } );
+		this.scoreInfo.font = 'monospace';
+		this.scoreInfo.text = "SCORE:";
+		this.displayscore = this.game.add.text(666, 112, "", { fill:"#ffffff" } );
 		this.displayscore.font = 'monospace';
-		this.displayscore.text = this.score;
+		let self = this;
+		this.displayscore.text = (() => {
+			let scoreStr = "" + self.score;
+			let retStr = "";
+			for (var i = 0; i < 7-scoreStr.length; i++) {
+				retStr += "0";
+			}
+			retStr += scoreStr;
+			return retStr;
+		})();
 
 		this.bullets = this.add.group();
 		for (let i = 0; i < 2000; i++) {
@@ -56,26 +70,27 @@ glState.Game = class {
 		this.bounds[0].body.setSize(68,600,0,0); //left
 		this.bounds[1].body.setSize(400,600,622,0); //right
 		this.bounds[2].body.setSize(800,75,0,0); //top
-		this.bounds[3].body.setSize(800,400,0,512); //bottom
+		this.bounds[3].body.setSize(800,400,0,320); //bottom
 	}
 	update() {
 		// temp
-		this.shoot(this.test, {
-			x: 100,
-			y: 300,
-			vx: 0,
-			vy: 0,
-			ay: -500,
-			ax: 0,
-			absoluteX: true,
-			absoluteY: true,
-			waveY: 20,
-		});
+		// this.shoot(this.test, {
+		// 	x: 100,
+		// 	y: 300,
+		// 	vx: 0,
+		// 	vy: 0,
+		// 	ay: -500,
+		// 	ax: 0,
+		// 	absoluteX: true,
+		// 	absoluteY: true,
+		// 	waveY: 20,
+		// });
 		this.movePlayer();
 		this.bounds.forEach(i => {
 			game.physics.arcade.collide(this.player,i);
 			i.visible = false;
 		});
+		game.physics.arcade.collide(this.player,this.bowl);
 		this.bullets.children.forEach(i => {
 			if (i.baseWaveY > 0) {
 				if (this.frameTimer > i.waveY) {
