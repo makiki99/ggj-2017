@@ -17,8 +17,8 @@ glState.Game = class {
 			while (true) {
 				switch (pattern) {
 					case 0:
-						data.x = Math.floor(Math.random()*2)*520+90;
-						data.y = Math.random()*200+100;
+						data.x = Math.floor(Math.random()*2)*600+50;
+						data.y = Math.random()*400+100;
 						if (data.x > 400) {
 							data.vx = -100;
 						} else {
@@ -31,9 +31,9 @@ glState.Game = class {
 								y: data.y,
 								absoluteX: true,
 								absoluteY: true,
-							});
+								});
 							yield;
-							}
+						}
 						yield;
 						break;
 					default:
@@ -63,6 +63,7 @@ glState.Game = class {
 		}
 		this.bowl = this.add.sprite(240,340,"bowl");
 		this.add.sprite(68,54,"glass");
+		this.add.sprite(0,0,"border");
 
 		//Punkty/Timer
 		this.timer = game.time.create(false);
