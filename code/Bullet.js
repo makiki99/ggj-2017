@@ -1,7 +1,8 @@
-class Bullet extends Phaser.sprite {
+class Bullet extends Phaser.Sprite {
 	constructor() {
-		super(0,0,["fire","popcorn"]);
-		this.kill();
+		super(game,0,0,"popcorn");
 		game.physics.arcade.enable(this);
+		this.body.setCircle(10); //temp
+		this.kill();
 	}
 }

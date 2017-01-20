@@ -9,9 +9,15 @@ glState.Game = class {
         this.timer;
 	}
 	create() {
+		//game.world.setBounds(68, 75, 568, 448);
+		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
 		this.add.sprite(0,0,"bg");
 		this.player = this.add.sprite(128,128,"player");
-		this.bullets = this.add.group();
+		game.physics.arcade.enable(this.player);
+		this.player.body.setCircle(2);
+		this.player.inputEnabled = true;
+		this.player.input.enableDrag();
+		this.player.input.boundsRect = this.bounds;
 		this.test = {
 			x: 400,
 			y: 500
@@ -39,6 +45,64 @@ glState.Game = class {
 		});
         
         this.displayscore.text = this.score;
+
+		this.bullets = this.add.group();
+		for (var i = 0; i < 2000; i++) {
+			this.bullets.add(new Bullet());
+		}
+		//bounds
+		this.bounds = [
+			this.add.sprite(null,0,0),
+			this.add.sprite(null,0,0),
+			this.add.sprite(null,0,0),
+			this.add.sprite(null,0,0)
+		];
+		this.bounds.forEach(i => {
+			game.physics.arcade.enable(i);
+			i.body.immovable = true;
+			i.visible = false;
+		});
+		this.bounds[0].body.setSize(68,600,0,0); //left
+		this.bounds[1].body.setSize(400,600,622,0); //right
+		this.bounds[2].body.setSize(800,75,0,0); //top
+		this.bounds[3].body.setSize(800,400,0,512); //bottom
+	}
+	update() {
+		//temp
+		// this.shoot(this.test, {
+		// 	x: 0,
+		// 	y: 0,
+		// 	vx: Math.random()*200-100,
+		// 	vy: Math.random()*600-300,
+		// 	gy: 100
+		// });
+		this.movePlayer();
+		this.bounds.forEach(i => {
+			game.physics.arcade.collide(this.player,i);
+			i.visible = false;
+		});
+	}
+	movePlayer() {
+		let directionX = 0;
+		let directionY = 0;
+		let moveSpeed = 200;
+		if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+			directionY--;
+		}
+		if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+			directionY++;
+		}
+		if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+			directionX--;
+		}
+		if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+			directionX++;
+		}
+		if (directionX && directionY) {
+			moveSpeed *= Math.SQRT1_2;
+		}
+		this.player.body.velocity.x = moveSpeed*directionX;
+		this.player.body.velocity.y = moveSpeed*directionY;
 	}
 	shoot(src,options){
 		let opts = options || {};
@@ -71,6 +135,7 @@ glState.Game = class {
 			this.bulletPtr = 0;
 		}
 	}
+
     
     counttime() {
         this.ms++;

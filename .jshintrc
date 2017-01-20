@@ -90,6 +90,7 @@
 	"globals"       : {
 		"Phaser": false,
 		"game": true,
-		"glState": true
+		"glState": true,
+		"Bullet": true
 	}
 }
