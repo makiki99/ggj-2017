@@ -9,6 +9,7 @@ glState.Boot = class {
 		this.load.image("fire","assets/fire_placeholder.png");
 		this.load.image("popcorn","assets/fire_placeholder.png");
 		this.load.image("player","assets/player.png");
+        this.load.image('endscreen',"assets/endscreen.png");
 	}
 	update() {
 		game.state.start('main');
