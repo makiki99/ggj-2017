@@ -3,10 +3,8 @@ var glState = glState||{};
 glState.Game = class {
 	constructor() {
 		this.bulletPtr = 0;
-        this.ms = 0;
-        this.displayscore;
-        this.score = 0;
-        this.timer;
+		this.ms = 0;
+		this.score = 0;
 	}
 	create() {
 		//game.world.setBounds(68, 75, 568, 448);
@@ -23,31 +21,23 @@ glState.Game = class {
 			y: 500
 		};
 		game.physics.arcade.enable(this.player);
+		this.bullets = this.add.group();
 		for (var i = 0; i < 2000; i++) {
 			this.bullets.add(new Bullet());
 		}
-        
-        //Punkty/Timer
-        this.timer = game.time.create(false);
-        this.timer.loop(100, this.counttime, this);
-        this.timer.start();
-        
-        //Display score
-        this.displayscore = this.game.add.text(500, 500, "", { fill:"#ffffff"} );
-	}
-	update() {
-		this.shoot(this.test, {
-			x: 0,
-			y: 0,
-			vx: Math.random()*200-100,
-			vy: Math.random()*600-300,
-			gy: 100
-		});
-        
-        this.displayscore.text = this.score;
+
+		//Punkty/Timer
+		this.timer = game.time.create(false);
+	this.timer.loop(100, this.counttime, this);
+	this.timer.start();
+
+	//Display score
+	this.displayscore = this.game.add.text(500, 500, "", { fill:"#ffffff"} );
+
+	this.displayscore.text = this.score;
 
 		this.bullets = this.add.group();
-		for (var i = 0; i < 2000; i++) {
+		for (let i = 0; i < 2000; i++) {
 			this.bullets.add(new Bullet());
 		}
 		//bounds
@@ -136,9 +126,9 @@ glState.Game = class {
 		}
 	}
 
-    
-    counttime() {
-        this.ms++;
-        this.score = this.ms * 100;
-    }
+
+	counttime() {
+		this.ms++;
+		this.score = this.ms * 100;
+	}
 };
