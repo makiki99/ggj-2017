@@ -1,6 +1,6 @@
 class Bullet extends Phaser.Sprite {
 	constructor() {
-		super(0,0,["fire","popcorn"]);
+		super(game,0,0,"popcorn");
 		this.kill();
 		game.physics.arcade.enable(this);
 	}
