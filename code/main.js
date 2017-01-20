@@ -20,4 +20,5 @@ glState.MainState = class {
 let game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 game.state.add('boot', new glState.Boot());
 game.state.add('main', new glState.MainState());
+game.state.add('game', new glState.Game());
 game.state.start('boot');
