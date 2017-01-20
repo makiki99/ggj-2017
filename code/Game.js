@@ -5,6 +5,7 @@ glState.Game = class {
 		this.bulletPtr = 0;
 		this.ms = 0;
 		this.score = 0;
+		this.frameTimer = 0;
 	}
 	create() {
 		//game.world.setBounds(68, 75, 568, 448);
@@ -61,13 +62,14 @@ glState.Game = class {
 		// temp
 		this.shoot(this.test, {
 			x: 100,
-			y: 100,
-			vx: 100,
-			vy: 100,
-			ay: 50,
+			y: 300,
+			vx: 0,
+			vy: 0,
+			ay: -500,
+			ax: 0,
 			absoluteX: true,
 			absoluteY: true,
-			waveY: true,
+			waveY: 20,
 		});
 		this.movePlayer();
 		this.bounds.forEach(i => {
@@ -75,14 +77,20 @@ glState.Game = class {
 			i.visible = false;
 		});
 		this.bullets.children.forEach(i => {
-			if (i.waveY) {
-				if (i.body.velocity.y > 0) {
-					i.body.acceleration.y = -Math.abs(i.body.acceleration.y);
-				} else if (i.body.velocity.y < 0) {
-					i.body.acceleration.y = Math.abs(i.body.acceleration.y);
+			if (i.baseWaveY > 0) {
+				if (this.frameTimer > i.waveY) {
+					i.body.acceleration.y = -i.body.acceleration.y;
+					i.waveY += (i.baseWaveY+1)*2;
+				}
+			}
+			if (i.baseWaveX > 0) {
+				if (this.frameTimer > i.waveX) {
+					i.body.acceleration.x = -i.body.acceleration.x;
+					i.waveX += (i.baseWaveX+1)*2;
 				}
 			}
 		});
+		this.frameTimer++;
 	}
 	movePlayer() {
 		let directionX = 0;
@@ -119,8 +127,8 @@ glState.Game = class {
 		opts.absoluteX = !!opts.absoluteX;
 		opts.absoluteY = !!opts.absoluteY;
 		opts.lifespan = (opts.lifespan === undefined) ? 0 : opts.lifespan;
-		opts.waveY = !!opts.waveY;
-		opts.waveX = !!opts.waveX;
+		opts.waveY = (opts.waveY === undefined) ? 0 : opts.waveY;
+		opts.waveX = (opts.waveX === undefined) ? 0 : opts.waveX;
 
 		if (!opts.absoluteX) {
 			opts.x += src.x;
@@ -137,8 +145,11 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].body.acceleration.y = opts.ay;
 		this.bullets.children[this.bulletPtr].body.gravity.x = opts.gx;
 		this.bullets.children[this.bulletPtr].body.gravity.y = opts.gy;
-		this.bullets.children[this.bulletPtr].waveY = opts.waveY;
-		this.bullets.children[this.bulletPtr].waveX = opts.waveX;
+		this.bullets.children[this.bulletPtr].startTime = this.timer.now;
+		this.bullets.children[this.bulletPtr].baseWaveY = opts.waveY;
+		this.bullets.children[this.bulletPtr].baseWaveX = opts.waveX;
+		this.bullets.children[this.bulletPtr].waveY = this.frameTimer + opts.waveY;
+		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
