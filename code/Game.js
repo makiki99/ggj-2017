@@ -105,6 +105,7 @@ glState.Game = class {
 				}
 			}
 		});
+		this.spawnBullets();
 		this.frameTimer++;
 	}
 	movePlayer() {
@@ -144,6 +145,7 @@ glState.Game = class {
 		opts.lifespan = (opts.lifespan === undefined) ? 0 : opts.lifespan;
 		opts.waveY = (opts.waveY === undefined) ? 0 : opts.waveY;
 		opts.waveX = (opts.waveX === undefined) ? 0 : opts.waveX;
+		opts.img = (opts.waveX === undefined) ? "fire" : opts.waveX;
 
 		if (!opts.absoluteX) {
 			opts.x += src.x;
@@ -165,6 +167,7 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].baseWaveX = opts.waveX;
 		this.bullets.children[this.bulletPtr].waveY = this.frameTimer + opts.waveY;
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
+		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
@@ -174,5 +177,8 @@ glState.Game = class {
 	counttime() {
 		this.ms++;
 		this.score = this.ms * 100;
+	}
+	spawnBullets(){
+
 	}
 };
