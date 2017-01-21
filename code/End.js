@@ -1,7 +1,5 @@
 var glState = glState||{};
 
-
-
 glState.End = class {
 	constructor() {
 	}
@@ -17,8 +15,6 @@ glState.End = class {
 		} else {
 			this.game.add.text(280, 350, "Your highest score is: " + glState.hiScore);
 		}
-
-
 
 		this.game.add.text(50, 570, "Press enter to try again.");
 		this.enter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);

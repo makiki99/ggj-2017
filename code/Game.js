@@ -50,37 +50,39 @@ glState.Game = class {
 							yield;
 						}
 						yield;
-						if (self.frameTimer >= 600){
+						if (self.frameTimer >= 480){
 							pattern = 2;
 						}
 						break;
 					case 2:
-						data.x = Math.floor(Math.random()*2)*600+50;
-						data.y = Math.random()*300+100;
-						if (data.x > 400) {
-							data.vx = -1;
-						} else {
-							data.vx = 1;
-						}
-						for (let i = 0; i < 10; i++) {
-							if (i%3 === 0) {
-								self.shoot(self.bowl, {
-									vx: data.vx*175,
-									x: data.x,
-									y: data.y,
-									ay: 150,
-									absoluteX: true,
-									absoluteY: true,
-									img: "fire",
-									waveY: 8
-								});
+						if (self.frameTimer%12 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
 							}
-							yield;
+						}
+						if (self.frameTimer%3 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*175,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
 						}
 						yield;
-						// if (self.frameTimer >= 600){
-						// 	pattern = 2;
+						// if (self.frameTimer >= 960){
+						// 	pattern = 3;
 						// }
+						break;
+					case 3:
+
 						break;
 					default:
 						console.error("something went wrong with pattern id - reverting to default");
