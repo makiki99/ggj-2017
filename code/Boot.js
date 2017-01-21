@@ -1,7 +1,12 @@
 var glState = glState||{};
 
-var score = 0;
-var highestscore = 0;
+glState.score = 0;
+glState.hiScore = 0;
+var WebFontConfig ={
+	google: {
+		families: ["VT323"]
+	}
+};
 
 glState.Boot = class {
 	constructor() {
@@ -18,7 +23,8 @@ glState.Boot = class {
 		this.load.image("laser","assets/laser.png");
 		this.load.image("popcorn","assets/fire_placeholder.png");
 		this.load.image("player","assets/player.png");
-        this.load.image('endscreen',"assets/endscreen.png");
+		this.load.image('endscreen',"assets/endscreen.png");
+		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
 	}
 	update() {
 		game.state.start('main');

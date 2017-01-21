@@ -2,13 +2,14 @@ var glState = glState||{};
 
 glState.Game = class {
 	constructor() {
-		let self = this;
 		this.BORDER_LEFT = 90;
 		this.BORDER_RIGHT = 610;
 		this.BORDER_UP = 100;
 		this.BORDER_DOWN = 300;
+	}
+	create() {
+		let self = this;
 		this.bulletPtr = 0;
-		this.ms = 0;
 		this.score = 0;
 		this.frameTimer = 0;
 		let generateBullets = function*() {
@@ -34,24 +35,29 @@ glState.Game = class {
 								absoluteY: true,
 								img: "laser",
 								waveY: 10
-								});
+							});
+							yield;
+						}
+						for (var i = 0; i < 10; i++) {
 							yield;
 						}
 						yield;
+						if (self.frameTimer >= 600){
+							pattern = 1;
+						}
 						break;
 					default:
-
+						console.error("something went wrong with pattern id - reverting to default");
+						pattern = 0;
 				}
 			}
 		};
 		this.spawnBullets = generateBullets();
-	}
-	create() {
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
 		this.add.sprite(0,0,"bg2");
 		this.player = this.add.sprite(128,128,"player");
 		game.physics.arcade.enable(this.player);
-		this.player.body.setCircle(2);
+		this.player.body.setCircle(6);
 		this.player.inputEnabled = true;
 		this.player.input.enableDrag();
 		this.player.input.boundsRect = this.bounds;
@@ -68,27 +74,19 @@ glState.Game = class {
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
 
-		//Punkty/Timer
-		this.timer = game.time.create(false);
-		this.timer.loop(100, this.counttime, this);
-		this.timer.start();
-
 		//Display score
-		this.scoreInfo = this.game.add.text(666, 90, "", { fill:"#ffffff" } );
-		this.scoreInfo.font = 'monospace';
+		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"lime" } );
+		this.scoreInfo.font = 'VT323';
 		this.scoreInfo.text = "SCORE:";
-		this.displayscore = this.game.add.text(666, 112, "", { fill:"#ffffff" } );
-		this.displayscore.font = 'monospace';
-		let self = this;
-		this.displayscore.text = (() => {
-			let scoreStr = "" + self.score;
-			let retStr = "";
-			for (var i = 0; i < 7-scoreStr.length; i++) {
-				retStr += "0";
-			}
-			retStr += scoreStr;
-			return retStr;
-		})();
+		this.displayscore = this.game.add.text(684, 108, "", { fill:"lime" } );
+		this.displayscore.font = 'VT323';
+		this.displayscore.text = "000000000";
+		this.hiScoreInfo = this.game.add.text(660, 130, "", { fill:"lime" } );
+		this.hiScoreInfo.font = 'VT323';
+		this.hiScoreInfo.text = "HI-SCORE:";
+		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"lime" } );
+		this.displayhiScore.font = 'VT323';
+		this.displayhiScore.text = "000000000";
 		//bounds
 		this.bounds = [
 			this.add.sprite(null,0,0),
@@ -125,6 +123,9 @@ glState.Game = class {
 			i.visible = false;
 		});
 		game.physics.arcade.collide(this.player,this.bowl);
+		game.physics.arcade.collide(this.player,this.bullets,()=>{
+			game.state.start("end");
+		});
 		this.bullets.children.forEach(i => {
 			if (i.baseWaveY > 0) {
 				if (this.frameTimer > i.waveY) {
@@ -140,6 +141,17 @@ glState.Game = class {
 			}
 		});
 		this.spawnBullets.next();
+		this.score = Math.floor(this.frameTimer * 100 / 60);
+		let self = this;
+		this.displayscore.text = (() => {
+			let scoreStr = "" + self.score;
+			let retStr = "";
+			for (var i = 0; i < 9-scoreStr.length; i++) {
+				retStr += "0";
+			}
+			retStr += scoreStr;
+			return retStr;
+		})();
 		this.frameTimer++;
 	}
 	movePlayer() {
@@ -196,7 +208,7 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].body.acceleration.y = opts.ay;
 		this.bullets.children[this.bulletPtr].body.gravity.x = opts.gx;
 		this.bullets.children[this.bulletPtr].body.gravity.y = opts.gy;
-		this.bullets.children[this.bulletPtr].startTime = this.timer.now;
+		this.bullets.children[this.bulletPtr].startTime = this.frameTimer;
 		this.bullets.children[this.bulletPtr].baseWaveY = opts.waveY;
 		this.bullets.children[this.bulletPtr].baseWaveX = opts.waveX;
 		this.bullets.children[this.bulletPtr].waveY = this.frameTimer + opts.waveY;
@@ -207,9 +219,5 @@ glState.Game = class {
 		if (this.bulletPtr >= this.bullets.length) {
 			this.bulletPtr = 0;
 		}
-	}
-	counttime() {
-		this.ms++;
-		this.score = this.ms * 100;
 	}
 };
