@@ -1,7 +1,5 @@
 var glState = glState||{};
 
-var score = 0;
-var highestscore = 0;
 glState.Game = class {
 	constructor() {
 		let self = this;
@@ -16,7 +14,7 @@ glState.Game = class {
 				switch (pattern) {
 					case 0:
 						if (self.frameTimer >= 100){
-							pattern = 1;
+							pattern = 10;
 						}
 						yield;
 						break;
@@ -47,7 +45,7 @@ glState.Game = class {
 							yield;
 						}
 						yield;
-						if (self.frameTimer >= 480){
+						if (self.frameTimer >= 300){
 							pattern = 2;
 						}
 						break;
@@ -73,7 +71,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer >= 960){
+						if (self.frameTimer >= 600){
 							pattern = 3;
 						}
 						yield;
@@ -111,7 +109,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 1600) {
+						if (self.frameTimer > 900) {
 							pattern = 4;
 						}
 						yield;
@@ -149,7 +147,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 3000) {
+						if (self.frameTimer > 1200) {
 							pattern = 5;
 						}
 						yield;
@@ -187,7 +185,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 6000) {
+						if (self.frameTimer > 1500) {
 							pattern = 6;
 						}
 						yield;
@@ -225,7 +223,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 9000) {
+						if (self.frameTimer > 1800) {
 							pattern = 7;
 						}
 						yield;
@@ -280,7 +278,7 @@ glState.Game = class {
 								img: "lazor",
 							});
 						}
-						if (self.frameTimer > 12000) {
+						if (self.frameTimer > 2400) {
 							pattern = 8;
 						}
 						yield;
@@ -340,7 +338,7 @@ glState.Game = class {
 								img: "lazor",
 							});
 						}
-						if (self.frameTimer > 15000) {
+						if (self.frameTimer > 3000) {
 							pattern = 9;
 						}
 						yield;
@@ -402,7 +400,7 @@ glState.Game = class {
 								img: "lazor",
 							});
 						}
-						if (self.frameTimer > 18000) {
+						if (self.frameTimer > 4000) {
 							pattern = 10;
 						}
 						yield;
@@ -495,23 +493,23 @@ glState.Game = class {
 		game.physics.arcade.enable(this.player);
 		this.bowl = this.add.sprite(240,340,"bowl");
 		this.bullets = this.add.group();
-		for (var i = 0; i < 2000; i++) {
+		for (var i = 0; i < 500; i++) {
 			this.bullets.add(new Bullet());
 		}
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
 
 		//Display score
-		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"lime" } );
+		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"#00ff00" } );
 		this.scoreInfo.font = 'VT323';
 		this.scoreInfo.text = "SCORE:";
-		this.displayscore = this.game.add.text(684, 108, "", { fill:"lime" } );
+		this.displayscore = this.game.add.text(684, 108, "", { fill:"#00ff00" } );
 		this.displayscore.font = 'VT323';
 		this.displayscore.text = "000000000";
-		this.hiScoreInfo = this.game.add.text(660, 130, "", { fill:"lime" } );
+		this.hiScoreInfo = this.game.add.text(660, 130, "", { fill:"#00ff00" } );
 		this.hiScoreInfo.font = 'VT323';
 		this.hiScoreInfo.text = "HI-SCORE:";
-		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"lime" } );
+		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = "000000000";
 		//bounds
@@ -535,15 +533,15 @@ glState.Game = class {
 	}
 	update() {
         this.checkAlive();
-        this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null,this)
+        this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null,this);
 		this.movePlayer();
 		this.bounds.forEach(i => {
 			game.physics.arcade.collide(this.player,i);
 			i.visible = false;
 		});
         this.bounds.forEach(i => {
-            this.physics.arcade.overlap(this.salt,i,this.saltKill,null,this)
-        })
+            this.physics.arcade.overlap(this.salt,i,this.saltKill,null,this);
+        });
 		game.physics.arcade.collide(this.player,this.bowl);
 		game.physics.arcade.collide(this.player,this.bullets,()=>{
 			game.state.start("end");
@@ -578,11 +576,11 @@ glState.Game = class {
 			return retStr;
 		})();
 		this.frameTimer++;
-        this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this)
-        if(this.player.alive === false){
-            game.state.start('end')
-        }
-        
+		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
+			if(this.player.alive === false){
+				game.state.start('end');
+			}
+
 	}
 	movePlayer() {
 		let directionX = 0;
@@ -657,19 +655,19 @@ glState.Game = class {
 		}
 	}
     gameover(){
-        game.time.events.remove(this.timer)
-        
+        game.time.events.remove(this.timer);
+
         this.bullets.children.forEach(i => {
             i.body.moves = false;
-        })
+        });
         this.player.body.moves = false;
-        //TU WSTAW ANIMACJIE ŚMIERCI 
-        this.player.alive = false
+        //TU WSTAW ANIMACJIE ŚMIERCI
+        this.player.alive = false;
     }
     createSalt(){
-        this.salt = this.add.sprite(Math.floor((Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT)+this.BORDER_LEFT),Math.floor((Math.random()*this.BORDER_DOWN-this.BORDER_UP)+this.BORDER_UP),"salt")
+        this.salt = this.add.sprite(Math.floor((Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT)+this.BORDER_LEFT),Math.floor((Math.random()*this.BORDER_DOWN-this.BORDER_UP)+this.BORDER_UP),"salt");
         game.physics.arcade.enable(this.salt);
-        this.salt.anchor.setTo(0.5,0.5)
+        this.salt.anchor.setTo(0.5,0.5);
         this.salt.alive=true;
     }
     checkAlive(){
@@ -684,7 +682,6 @@ glState.Game = class {
     saltPick(){
         this.salt.kill();
         this.salt.alive=false;
-        console.log(this.salt.alive)
+        console.log(this.salt.alive);
     }
-
 };
