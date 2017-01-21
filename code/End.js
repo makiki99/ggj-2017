@@ -5,6 +5,7 @@ glState.End = class {
 	}
 	create() {
 		this.add.sprite(0,0,'endscreen');
+<<<<<<< HEAD
 		this.game.add.text(200, 145, "You got Pop'ed.");
 		this.endtext = this.game.add.text(220,180, "SCORE: " + Math.floor(glState.score));
 		//Highest score
@@ -14,6 +15,17 @@ glState.End = class {
 			this.game.add.text(300, 290, "Your current highscore is: " + Math.floor(glState.hiScore));
 		} else {
 			this.game.add.text(280, 290, "Your highest score is: " + Math.floor(glState.hiScore));
+=======
+		this.game.add.text(280, 145, "You got Pop'ed.");
+		this.endtext = this.game.add.text(300,180, "SCORE: " + Math.floor(glState.score));
+		//Highest score
+		if (glState.score > glState.hiScore) {
+			glState.hiScore = glState.score;
+			this.game.add.text(280, 350, "You've beaten your old highscore! :)");
+			this.game.add.text(400, 390, "Your current highscore is: " + Math.floor(glState.hiScore));
+		} else {
+			this.game.add.text(280, 350, "Your highest score is: " + Math.floor(glState.hiScore));
+>>>>>>> refs/remotes/origin/makiki
 		}
 
 		this.game.add.text(50, 570, "Press enter to try again.");
