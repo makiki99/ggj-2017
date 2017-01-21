@@ -1,5 +1,7 @@
 var glState = glState||{};
 
+var score = 0;
+var highestscore = 0;
 glState.Game = class {
 	constructor() {
 		let self = this;
@@ -9,7 +11,6 @@ glState.Game = class {
 		this.BORDER_DOWN = 300;
 		this.bulletPtr = 0;
 		this.ms = 0;
-		this.score = 0;
 		this.frameTimer = 0;
 		let generateBullets = function*() {
 			let pattern = 0;
@@ -144,7 +145,7 @@ glState.Game = class {
 		this.frameTimer++;
         this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this)
         if(this.player.alive === false){
-            game.state.start("end")
+            game.state.start('end')
         }
         
 	}
@@ -216,7 +217,7 @@ glState.Game = class {
 	}
 	counttime() {
 		this.ms++;
-		this.score = this.ms * 100;
+		score = this.ms * 100;
 	}
     gameover(){
         game.time.events.remove(this.timer)
@@ -226,9 +227,6 @@ glState.Game = class {
         })
         this.player.body.moves = false;
         //TU WSTAW ANIMACJIE ŚMIERCI 
-        game.time.events.add(Phaser.Time.SECOND*5, this.playeralive)
-    };
-    playeralive(){
         this.player.alive = false
     }
               
