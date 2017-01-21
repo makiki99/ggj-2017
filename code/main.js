@@ -8,10 +8,12 @@ glState.MainState = class {
 		this.add.sprite(68,54,"glass");
 		this.spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.spacebar.onDown.add(this.startGame, this);
+        this.lightsound = game.add.audio('light')
 	}
 	startGame(){
 		//animacja
-		game.state.start('game');
+        this.lightsound.play();
+		game.state.start('game')
 	}
 	update() {
 

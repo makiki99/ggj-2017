@@ -16,6 +16,7 @@ glState.Boot = class {
 		this.load.image("popcorn","assets/fire_placeholder.png");
 		this.load.image("player","assets/player.png");
         this.load.image('endscreen',"assets/endscreen.png");
+        this.load.audio('light','assets/swiatlo switch.wav')
 	}
 	update() {
 		game.state.start('main');
