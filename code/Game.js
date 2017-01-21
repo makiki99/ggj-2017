@@ -45,7 +45,7 @@ glState.Game = class {
 							yield;
 						}
 						yield;
-						if (self.frameTimer >= 480){
+						if (self.frameTimer >= 300){
 							pattern = 2;
 						}
 						break;
@@ -71,7 +71,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer >= 960){
+						if (self.frameTimer >= 600){
 							pattern = 3;
 						}
 						yield;
@@ -109,7 +109,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 1600) {
+						if (self.frameTimer > 900) {
 							pattern = 4;
 						}
 						yield;
@@ -147,7 +147,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 3000) {
+						if (self.frameTimer > 1200) {
 							pattern = 5;
 						}
 						yield;
@@ -185,7 +185,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 6000) {
+						if (self.frameTimer > 1500) {
 							pattern = 6;
 						}
 						yield;
@@ -223,7 +223,7 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
-						if (self.frameTimer > 9000) {
+						if (self.frameTimer > 1800) {
 							pattern = 7;
 						}
 						yield;
@@ -278,7 +278,7 @@ glState.Game = class {
 								img: "lazor",
 							});
 						}
-						if (self.frameTimer > 12000) {
+						if (self.frameTimer > 2400) {
 							pattern = 8;
 						}
 						yield;
@@ -338,7 +338,7 @@ glState.Game = class {
 								img: "lazor",
 							});
 						}
-						if (self.frameTimer > 15000) {
+						if (self.frameTimer > 3000) {
 							pattern = 9;
 						}
 						yield;
@@ -400,7 +400,7 @@ glState.Game = class {
 								img: "lazor",
 							});
 						}
-						if (self.frameTimer > 18000) {
+						if (self.frameTimer > 4000) {
 							pattern = 10;
 						}
 						yield;
