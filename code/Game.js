@@ -2,17 +2,12 @@ var glState = glState||{};
 
 glState.Game = class {
 	constructor() {
+		let self = this;
 		this.BORDER_LEFT = 90;
 		this.BORDER_RIGHT = 610;
 		this.BORDER_UP = 100;
 		this.BORDER_DOWN = 300;
-	}
-	create() {
-		let self = this;
-		this.bulletPtr = 0;
-		this.score = 0;
-		this.frameTimer = 0;
-		let generateBullets = function*() {
+		this.generateBullets = function*() {
 			let pattern = 0;
 			let data = {};
 			while (true) {
@@ -76,13 +71,407 @@ glState.Game = class {
 								waveY: 8
 							});
 						}
+						if (self.frameTimer >= 960){
+							pattern = 3;
+						}
 						yield;
-						// if (self.frameTimer >= 960){
-						// 	pattern = 3;
-						// }
 						break;
 					case 3:
-
+						if (self.frameTimer%240 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%12 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%3 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*175,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer > 1600) {
+							pattern = 4;
+						}
+						yield;
+						break;
+					case 4:
+						if (self.frameTimer%110 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%12 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%3 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*175,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer > 3000) {
+							pattern = 5;
+						}
+						yield;
+						break;
+					case 5:
+						if (self.frameTimer%65 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%12 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%3 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*175,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer > 6000) {
+							pattern = 6;
+						}
+						yield;
+						break;
+					case 6:
+						if (self.frameTimer%60 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%10 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%2 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*200,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer > 9000) {
+							pattern = 7;
+						}
+						yield;
+						break;
+					case 7:
+						if (self.frameTimer%60 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%10 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%2 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*200,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer%369 === 0) {
+							if (self.frameTimer%2) {
+								data.lazorX = Math.random()*200+50;
+							} else {
+								data.lazorX = Math.random()*200+410;
+							}
+						}
+						if (self.frameTimer%369 < 60 && data.lazorX) {
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+						}
+						if (self.frameTimer > 12000) {
+							pattern = 8;
+						}
+						yield;
+						break;
+					case 8:
+						if (self.frameTimer%60 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%10 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%2 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*200,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer%369 === 0) {
+							data.lazorX = Math.random()*200+50;
+							data.lazorX2 = Math.random()*200+410;
+						}
+						if (self.frameTimer%369 < 60 && data.lazorX) {
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX2,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+						}
+						if (self.frameTimer > 15000) {
+							pattern = 9;
+						}
+						yield;
+						break;
+					case 9:
+						if (self.frameTimer%100 === 69) {
+							for (let i = 0; i < 5; i++) {
+								this.shoot(self.bowl, {
+									x: Math.random()*28.8+10+28.8*i,
+									y: 25,
+									vy: -322,
+									vx: Math.random()*44-22+44*i,
+									img: "popcorn" + Math.floor(Math.random()*5+1),
+									ay: 200,
+									angleVel: Math.random()*200-100
+								});
+							}
+						}
+						if (self.frameTimer%10 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%2 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*200,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer%369 === 0) {
+							data.lazorX = Math.random()*200+50;
+							data.lazorX2 = Math.random()*200+410;
+						}
+						if (self.frameTimer%369 < 60 && data.lazorX) {
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX2,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+						}
+						if (self.frameTimer > 18000) {
+							pattern = 10;
+						}
+						yield;
+						break;
+					case 10:
+						if (self.frameTimer%20 === 0) {
+							this.shoot(self.bowl, {
+								x: Math.random()*144+50,
+								y: 25,
+								vy: -322,
+								vx: Math.random()*220-110,
+								img: "popcorn" + Math.floor(Math.random()*5+1),
+								ay: 200,
+								angleVel: Math.random()*200-100
+							});
+						}
+						if (self.frameTimer%10 === 0) {
+							data.x = Math.floor(Math.random()*2)*600+50;
+							data.y = Math.random()*300+100;
+							if (data.x > 400) {
+								data.vx = -1;
+							} else {
+								data.vx = 1;
+							}
+						}
+						if (self.frameTimer%2 === 0) {
+							self.shoot(self.bowl, {
+								vx: data.vx*225,
+								x: data.x,
+								y: data.y,
+								ay: 150,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveY: 8
+							});
+						}
+						if (self.frameTimer%369 === 0) {
+							data.lazorX = Math.random()*200+50;
+							data.lazorX2 = Math.random()*200+410;
+						}
+						if (self.frameTimer%369 < 60 && data.lazorX) {
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+							self.shoot(self.bowl, {
+								vy: -600,
+								x: data.lazorX2,
+								y: 600,
+								absoluteX: true,
+								absoluteY: true,
+								img: "lazor",
+							});
+						}
+						if (self.frameTimer%10 === 0) {
+							self.shoot(this.bowl,{
+								x: self.player.x,
+								y: 600,
+								vx: -100,
+								absoluteX: true,
+								absoluteY: true,
+								img: "fire",
+								waveX: 8
+							});
+						}
+						yield;
 						break;
 					default:
 						console.error("something went wrong with pattern id - reverting to default");
@@ -90,25 +479,23 @@ glState.Game = class {
 				}
 			}
 		};
-		this.spawnBullets = generateBullets();
+	}
+	create() {
+		this.bulletPtr = 0;
+		this.score = 0;
+		this.frameTimer = 0;
+		this.spawnBullets = this.generateBullets();
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
 		this.add.sprite(0,0,"bg2");
 		this.player = this.add.sprite(128,128,"player");
 		game.physics.arcade.enable(this.player);
 		this.player.body.setCircle(6);
-		this.player.inputEnabled = true;
-		this.player.input.enableDrag();
-		this.player.input.boundsRect = this.bounds;
-		this.test = {
-			x: 400,
-			y: 500
-		};
 		game.physics.arcade.enable(this.player);
+		this.bowl = this.add.sprite(240,340,"bowl");
 		this.bullets = this.add.group();
 		for (var i = 0; i < 2000; i++) {
 			this.bullets.add(new Bullet());
 		}
-		this.bowl = this.add.sprite(240,340,"bowl");
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
 
@@ -143,18 +530,6 @@ glState.Game = class {
 		this.bounds[3].body.setSize(800,400,0,this.BORDER_DOWN); //bottom
 	}
 	update() {
-		// temp
-		// this.shoot(this.test, {
-		// 	x: 100,
-		// 	y: 300,
-		// 	vx: 0,
-		// 	vy: 0,
-		// 	ay: -500,
-		// 	ax: 0,
-		// 	absoluteX: true,
-		// 	absoluteY: true,
-		// 	waveY: 20,
-		// });
 		this.movePlayer();
 		this.bounds.forEach(i => {
 			game.physics.arcade.collide(this.player,i);
@@ -176,6 +551,9 @@ glState.Game = class {
 					i.body.acceleration.x = -i.body.acceleration.x;
 					i.waveX += (i.baseWaveX+1)*2;
 				}
+			}
+			if (i.angleVel) {
+				i.angle += i.angleVel/60;
 			}
 		});
 		this.spawnBullets.next();
@@ -224,6 +602,9 @@ glState.Game = class {
 		opts.ay = (opts.ay === undefined) ? 0 : opts.ay;
 		opts.gx = (opts.gx === undefined) ? 0 : opts.gx;
 		opts.gy = (opts.gy === undefined) ? 0 : opts.gy;
+		opts.angleVel = (opts.angleVel === undefined) ? 0 : opts.angleVel;
+		opts.omega = (opts.omega === undefined) ? 0 : opts.omega;
+		opts.epsilon = (opts.epsilon === undefined) ? 0 : opts.epsilon;
 		opts.absoluteX = !!opts.absoluteX;
 		opts.absoluteY = !!opts.absoluteY;
 		opts.lifespan = (opts.lifespan === undefined) ? 0 : opts.lifespan;
@@ -246,6 +627,9 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].body.acceleration.y = opts.ay;
 		this.bullets.children[this.bulletPtr].body.gravity.x = opts.gx;
 		this.bullets.children[this.bulletPtr].body.gravity.y = opts.gy;
+		this.bullets.children[this.bulletPtr].body.angularVelocity = opts.omega;
+		this.bullets.children[this.bulletPtr].body.angularAcceleration = opts.epsilon;
+		this.bullets.children[this.bulletPtr].angleVel = opts.angleVel;
 		this.bullets.children[this.bulletPtr].startTime = this.frameTimer;
 		this.bullets.children[this.bulletPtr].baseWaveY = opts.waveY;
 		this.bullets.children[this.bulletPtr].baseWaveX = opts.waveX;
