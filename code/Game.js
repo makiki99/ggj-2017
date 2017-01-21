@@ -533,15 +533,15 @@ glState.Game = class {
 	}
 	update() {
         this.checkAlive();
-        this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null,this)
+        this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null,this);
 		this.movePlayer();
 		this.bounds.forEach(i => {
 			game.physics.arcade.collide(this.player,i);
 			i.visible = false;
 		});
         this.bounds.forEach(i => {
-            this.physics.arcade.overlap(this.salt,i,this.saltKill,null,this)
-        })
+            this.physics.arcade.overlap(this.salt,i,this.saltKill,null,this);
+        });
 		game.physics.arcade.collide(this.player,this.bowl);
 		game.physics.arcade.collide(this.player,this.bullets,()=>{
 			game.state.start("end");
@@ -655,19 +655,19 @@ glState.Game = class {
 		}
 	}
     gameover(){
-        game.time.events.remove(this.timer)
+        game.time.events.remove(this.timer);
 
         this.bullets.children.forEach(i => {
             i.body.moves = false;
-        })
+        });
         this.player.body.moves = false;
         //TU WSTAW ANIMACJIE ŚMIERCI
-        this.player.alive = false
+        this.player.alive = false;
     }
     createSalt(){
-        this.salt = this.add.sprite(Math.floor((Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT)+this.BORDER_LEFT),Math.floor((Math.random()*this.BORDER_DOWN-this.BORDER_UP)+this.BORDER_UP),"salt")
+        this.salt = this.add.sprite(Math.floor((Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT)+this.BORDER_LEFT),Math.floor((Math.random()*this.BORDER_DOWN-this.BORDER_UP)+this.BORDER_UP),"salt");
         game.physics.arcade.enable(this.salt);
-        this.salt.anchor.setTo(0.5,0.5)
+        this.salt.anchor.setTo(0.5,0.5);
         this.salt.alive=true;
     }
     checkAlive(){
@@ -682,6 +682,6 @@ glState.Game = class {
     saltPick(){
         this.salt.kill();
         this.salt.alive=false;
-        console.log(this.salt.alive)
+        console.log(this.salt.alive);
     }
 };
