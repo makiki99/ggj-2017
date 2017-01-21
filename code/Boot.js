@@ -30,7 +30,9 @@ glState.Boot = class {
         this.load.image("salt", "assets/PJSalt.png");
 		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
     this.load.image('endscreen',"assets/endscreen.png");
-    this.load.audio('light','assets/swiatlo switch.wav');
+		this.load.audio('light','assets/swiatlo switch.wav');
+		this.load.audio('lazorSound','assets/lazor.wav');
+    this.load.audio('pop1','assets/singlepop.wav');
 	}
 	update() {
 		game.state.start('main');

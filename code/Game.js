@@ -87,6 +87,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -125,6 +126,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -163,6 +165,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -201,6 +204,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -239,6 +243,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -267,6 +272,7 @@ glState.Game = class {
 							} else {
 								data.lazorX = Math.random()*200+410;
 							}
+							this.lazorSound.play();
 						}
 						if (self.frameTimer%369 < 60 && data.lazorX) {
 							self.shoot(self.bowl, {
@@ -294,6 +300,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -319,6 +326,7 @@ glState.Game = class {
 						if (self.frameTimer%369 === 0) {
 							data.lazorX = Math.random()*200+50;
 							data.lazorX2 = Math.random()*200+410;
+							this.lazorSound.play();
 						}
 						if (self.frameTimer%369 < 60 && data.lazorX) {
 							self.shoot(self.bowl, {
@@ -355,6 +363,7 @@ glState.Game = class {
 									ay: 200,
 									angleVel: Math.random()*200-100
 								});
+								this.playRandomPop();
 							}
 						}
 						if (self.frameTimer%10 === 0) {
@@ -381,6 +390,7 @@ glState.Game = class {
 						if (self.frameTimer%369 === 0) {
 							data.lazorX = Math.random()*200+50;
 							data.lazorX2 = Math.random()*200+410;
+							this.lazorSound.play();
 						}
 						if (self.frameTimer%369 < 60 && data.lazorX) {
 							self.shoot(self.bowl, {
@@ -416,6 +426,7 @@ glState.Game = class {
 								ay: 200,
 								angleVel: Math.random()*200-100
 							});
+							this.playRandomPop();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -441,6 +452,9 @@ glState.Game = class {
 						if (self.frameTimer%369 === 0) {
 							data.lazorX = Math.random()*200+50;
 							data.lazorX2 = Math.random()*200+410;
+						}
+						if (self.frameTimer%369 === 15) {
+							this.lazorSound.play();
 						}
 						if (self.frameTimer%369 < 60 && data.lazorX) {
 							self.shoot(self.bowl, {
@@ -481,6 +495,10 @@ glState.Game = class {
 		};
 	}
 	create() {
+		this.gameover = false;
+		this.gameoverFrame = 0;
+		this.popSound = game.add.audio('pop1');
+		this.lazorSound = game.add.audio('lazorSound');
 		this.bulletPtr = 0;
 		glState.score = 0;
 		this.saltValue = 1000;
@@ -499,6 +517,7 @@ glState.Game = class {
 		}
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
+		this.createSalt();
 
 		//Display score
 		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"#00ff00" } );
@@ -537,57 +556,62 @@ glState.Game = class {
 		this.bounds[1].body.setSize(400,600,this.BORDER_RIGHT,0); //right
 		this.bounds[2].body.setSize(800,this.BORDER_UP,0,0); //top
 		this.bounds[3].body.setSize(800,400,0,this.BORDER_DOWN); //bottom
-        this.player.alive = true;
-        this.createSalt();
 	}
 	update() {
-        this.checkAlive();
-        this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null,this);
-		this.movePlayer();
-		this.bounds.forEach(i => {
-			game.physics.arcade.collide(this.player,i);
-			i.visible = false;
-		});
-        this.bounds.forEach(i => {
-            this.physics.arcade.overlap(this.salt,i,this.saltKill,null,this);
-        });
-		game.physics.arcade.collide(this.player,this.bowl);
-		game.physics.arcade.collide(this.player,this.bullets,()=>{
-			game.state.start("end");
-		});
-		this.bullets.children.forEach(i => {
-			if (i.baseWaveY > 0) {
-				if (this.frameTimer > i.waveY) {
-					i.body.acceleration.y = -i.body.acceleration.y;
-					i.waveY += (i.baseWaveY+1)*2;
+		if (this.gameover) {
+			if (this.gameoverFrame === 0) {
+				this.player.kill();
+				this.shoot(this.player,{
+					vy:-100,
+					img: "popcorn" + Math.floor(Math.random()*5+1),
+					ay: 200,
+					angleVel: Math.random()*200-100
+				});
+			}
+			this.gameoverFrame--;
+		} else {
+			this.checkAlive();
+			this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null, this);
+			this.movePlayer();
+			this.bounds.forEach(i => {
+				game.physics.arcade.collide(this.player,i);
+				i.visible = false;
+
+			});
+			this.bounds.forEach(i => {
+				this.physics.arcade.overlap(this.salt,i,this.resetSalt, null, this);
+			});
+			this.bullets.children.forEach(i => {
+				if (i.baseWaveY > 0) {
+					if (this.frameTimer > i.waveY) {
+						i.body.acceleration.y = -i.body.acceleration.y;
+						i.waveY += (i.baseWaveY+1)*2;
+					}
 				}
-			}
-			if (i.baseWaveX > 0) {
-				if (this.frameTimer > i.waveX) {
-					i.body.acceleration.x = -i.body.acceleration.x;
-					i.waveX += (i.baseWaveX+1)*2;
+				if (i.baseWaveX > 0) {
+					if (this.frameTimer > i.waveX) {
+						i.body.acceleration.x = -i.body.acceleration.x;
+						i.waveX += (i.baseWaveX+1)*2;
+					}
 				}
-			}
-			if (i.angleVel) {
-				i.angle += i.angleVel/60;
-			}
-		});
-		this.spawnBullets.next();
-		glState.score += 20;
-		this.displayscore.text = (() => {
-			let scoreStr = "" + Math.floor(glState.score);
-			let retStr = "";
-			for (var i = 0; i < 9-scoreStr.length; i++) {
-				retStr += "0";
-			}
-			retStr += scoreStr;
-			return retStr;
-		})();
-		this.frameTimer++;
-		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
-			if(this.player.alive === false){
-				game.state.start('end');
-			}
+				if (i.angleVel) {
+					i.angle += i.angleVel/60;
+				}
+			});
+			this.spawnBullets.next();
+			glState.score += 20;
+			this.displayscore.text = (() => {
+				let scoreStr = "" + Math.floor(glState.score);
+				let retStr = "";
+				for (var i = 0; i < 9-scoreStr.length; i++) {
+					retStr += "0";
+				}
+				retStr += scoreStr;
+				return retStr;
+			})();
+			this.frameTimer++;
+			this.physics.arcade.overlap(this.player, this.bullets, ()=>{this.gameover=true;});
+		}
 
 	}
 	movePlayer() {
@@ -662,16 +686,6 @@ glState.Game = class {
 			this.bulletPtr = 0;
 		}
 	}
-    gameover(){
-        game.time.events.remove(this.timer);
-
-        this.bullets.children.forEach(i => {
-            i.body.moves = false;
-        });
-        this.player.body.moves = false;
-        //TU WSTAW ANIMACJIE ŚMIERCI
-        this.player.alive = false;
-    }
     createSalt(){
         this.salt = this.add.sprite(Math.floor((Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT)+this.BORDER_LEFT),Math.floor((Math.random()*this.BORDER_DOWN-this.BORDER_UP)+this.BORDER_UP),"salt");
         game.physics.arcade.enable(this.salt);
@@ -699,4 +713,7 @@ glState.Game = class {
 				glState.score += this.saltValue;
 				this.saltValue += 10;
     }
+		playRandomPop(){
+			this.popSound.play();
+		}
 };
