@@ -27,8 +27,9 @@ glState.Boot = class {
 		this.load.image("popcorn4","assets/popcorn4.png");
 		this.load.image("popcorn5","assets/popcorn5.png");
 		this.load.image("player","assets/player.png");
-		this.load.image('endscreen',"assets/endscreen.png");
 		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
+    this.load.image('endscreen',"assets/endscreen.png");
+    this.load.audio('light','assets/swiatlo switch.wav')
 	}
 	update() {
 		game.state.start('main');

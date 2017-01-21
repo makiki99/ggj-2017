@@ -20,10 +20,12 @@ glState.MainState = class {
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"lime" } );
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = "000000000";
+        this.lightsound = game.add.audio('light')
 	}
 	startGame(){
 		//animacja
-		game.state.start('game');
+        this.lightsound.play();
+		game.state.start('game')
 	}
 	update() {
 
