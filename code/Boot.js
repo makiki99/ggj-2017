@@ -1,5 +1,8 @@
 var glState = glState||{};
 
+var score = 0;
+var highestscore = 0;
+
 glState.Boot = class {
 	constructor() {
 	}
