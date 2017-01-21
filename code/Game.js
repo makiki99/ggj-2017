@@ -14,7 +14,7 @@ glState.Game = class {
 				switch (pattern) {
 					case 0:
 						if (self.frameTimer >= 100){
-							pattern = 1;
+							pattern = 10;
 						}
 						yield;
 						break;
@@ -493,23 +493,23 @@ glState.Game = class {
 		game.physics.arcade.enable(this.player);
 		this.bowl = this.add.sprite(240,340,"bowl");
 		this.bullets = this.add.group();
-		for (var i = 0; i < 2000; i++) {
+		for (var i = 0; i < 500; i++) {
 			this.bullets.add(new Bullet());
 		}
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
 
 		//Display score
-		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"lime" } );
+		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"#00ff00" } );
 		this.scoreInfo.font = 'VT323';
 		this.scoreInfo.text = "SCORE:";
-		this.displayscore = this.game.add.text(684, 108, "", { fill:"lime" } );
+		this.displayscore = this.game.add.text(684, 108, "", { fill:"#00ff00" } );
 		this.displayscore.font = 'VT323';
 		this.displayscore.text = "000000000";
-		this.hiScoreInfo = this.game.add.text(660, 130, "", { fill:"lime" } );
+		this.hiScoreInfo = this.game.add.text(660, 130, "", { fill:"#00ff00" } );
 		this.hiScoreInfo.font = 'VT323';
 		this.hiScoreInfo.text = "HI-SCORE:";
-		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"lime" } );
+		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = "000000000";
 		//bounds
