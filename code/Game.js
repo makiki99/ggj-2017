@@ -1,7 +1,5 @@
 var glState = glState||{};
 
-var score = 0;
-var highestscore = 0;
 glState.Game = class {
 	constructor() {
 		let self = this;
@@ -572,11 +570,11 @@ glState.Game = class {
 			return retStr;
 		})();
 		this.frameTimer++;
-        this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this)
-        if(this.player.alive === false){
-            game.state.start('end')
-        }
-        
+		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
+			if(this.player.alive === false){
+				game.state.start('end');
+			}
+
 	}
 	movePlayer() {
 		let directionX = 0;
@@ -650,14 +648,14 @@ glState.Game = class {
 			this.bulletPtr = 0;
 		}
 	}
-    gameover(){
-        game.time.events.remove(this.timer)
-        
-        this.bullets.children.forEach(i => {
-            i.body.moves = false;
-        })
-        this.player.body.moves = false;
-        //TU WSTAW ANIMACJIE ŚMIERCI 
-        this.player.alive = false
-    }
+	gameover(){
+		game.time.events.remove(this.timer);
+
+		this.bullets.children.forEach(i => {
+			i.body.moves = false;
+			});
+			this.player.body.moves = false;
+			//TU WSTAW ANIMACJIE ŚMIERCI
+			this.player.alive = false;
+		}
 };

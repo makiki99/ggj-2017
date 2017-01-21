@@ -10,22 +10,22 @@ glState.MainState = class {
 		this.spacebar.onDown.add(this.startGame, this);
 		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"lime" } );
 		this.scoreInfo.font = 'VT323';
-		this.scoreInfo.text = "SCORE:";
+		this.scoreInfo.text = "PRESS";
 		this.displayscore = this.game.add.text(684, 108, "", { fill:"lime" } );
 		this.displayscore.font = 'VT323';
-		this.displayscore.text = "000000000";
+		this.displayscore.text = "SPACEBAR";
 		this.hiScoreInfo = this.game.add.text(660, 130, "", { fill:"lime" } );
 		this.hiScoreInfo.font = 'VT323';
-		this.hiScoreInfo.text = "HI-SCORE:";
-		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"lime" } );
+		this.hiScoreInfo.text = "TO BEGIN";
+		this.displayhiScore = this.game.add.text(695, 152, "", { fill:"lime" } );
 		this.displayhiScore.font = 'VT323';
-		this.displayhiScore.text = "000000000";
-        this.lightsound = game.add.audio('light')
+		this.displayhiScore.text = "COOKING";
+		this.lightsound = game.add.audio('light');
 	}
 	startGame(){
 		//animacja
-        this.lightsound.play();
-		game.state.start('game')
+		this.lightsound.play();
+		game.state.start('game');
 	}
 	update() {
 
