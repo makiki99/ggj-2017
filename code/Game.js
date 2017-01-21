@@ -86,7 +86,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -124,7 +125,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -162,7 +164,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -200,7 +203,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -238,7 +242,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -293,7 +298,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -355,6 +361,7 @@ glState.Game = class {
 									ay: 200,
 									angleVel: Math.random()*200-100
 								});
+								this.pop.play();
 							}
 						}
 						if (self.frameTimer%10 === 0) {
@@ -415,7 +422,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -481,8 +489,13 @@ glState.Game = class {
 		};
 	}
 	create() {
+		this.bgpopcorn = this.game.add.audio('bgpopcorn');
+		this.pop = this.game.add.audio('pop');
+		
+		
+		
 		this.bulletPtr = 0;
-		this.score = 0;
+		glState.score = 0;
 		this.frameTimer = 0;
 		this.spawnBullets = this.generateBullets();
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
@@ -493,7 +506,7 @@ glState.Game = class {
 		game.physics.arcade.enable(this.player);
 		this.bowl = this.add.sprite(240,340,"bowl");
 		this.bullets = this.add.group();
-		for (var i = 0; i < 2000; i++) {
+		for (var i = 0; i < 500; i++) {
 			this.bullets.add(new Bullet());
 		}
 		this.add.sprite(68,54,"glass");
@@ -511,7 +524,11 @@ glState.Game = class {
 		this.hiScoreInfo.text = "HI-SCORE:";
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"lime" } );
 		this.displayhiScore.font = 'VT323';
-		this.displayhiScore.text = "000000000";
+		this.displayhiScore.text = Math.floor(glState.hiScore);
+		
+		
+		
+		
 		//bounds
 		this.bounds = [
 			this.add.sprite(null,0,0),
@@ -558,21 +575,24 @@ glState.Game = class {
 			}
 		});
 		this.spawnBullets.next();
-		this.score = Math.floor(this.frameTimer * 100 / 60);
+		glState.score += 100/60;
 		let self = this;
 		this.displayscore.text = (() => {
-			let scoreStr = "" + self.score;
+			let scoreStr = "" +  Math.floor(glState.score);
 			let retStr = "";
 			for (var i = 0; i < 9-scoreStr.length; i++) {
 				retStr += "0";
+				
 			}
 			retStr += scoreStr;
 			return retStr;
 		})();
+		
+		
 		this.frameTimer++;
 		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
 			if(this.player.alive === false){
-				game.state.start('end');
+			game.state.start('end');
 			}
 
 	}
