@@ -20,17 +20,20 @@ glState.Game = class {
 						data.x = Math.floor(Math.random()*2)*600+50;
 						data.y = Math.random()*400+100;
 						if (data.x > 400) {
-							data.vx = -100;
+							data.vx = -1;
 						} else {
-							data.vx = 100;
+							data.vx = 1;
 						}
 						for (let i = 0; i < 10; i++) {
 							self.shoot(self.bowl, {
-								vx: data.vx,
+								vx: data.vx*175,
 								x: data.x,
 								y: data.y,
+								ay: 75,
 								absoluteX: true,
 								absoluteY: true,
+								img: "laser",
+								waveY: 10
 								});
 							yield;
 						}

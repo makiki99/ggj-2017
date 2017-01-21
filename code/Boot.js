@@ -12,6 +12,7 @@ glState.Boot = class {
 		this.load.image("bowl","assets/bowl.png");
 		this.load.image("border","assets/border.png");
 		this.load.image("fire","assets/fire.png");
+		this.load.image("laser","assets/laser.png");
 		this.load.image("popcorn","assets/fire_placeholder.png");
 		this.load.image("player","assets/player.png");
 	}
