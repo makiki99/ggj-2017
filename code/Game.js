@@ -1,5 +1,7 @@
 var glState = glState||{};
 
+var score = 0;
+var highestscore = 0;
 glState.Game = class {
 	constructor() {
 		let self = this;
@@ -528,6 +530,7 @@ glState.Game = class {
 		this.bounds[1].body.setSize(400,600,this.BORDER_RIGHT,0); //right
 		this.bounds[2].body.setSize(800,this.BORDER_UP,0,0); //top
 		this.bounds[3].body.setSize(800,400,0,this.BORDER_DOWN); //bottom
+        this.player.alive = true;
 	}
 	update() {
 		this.movePlayer();
@@ -569,6 +572,11 @@ glState.Game = class {
 			return retStr;
 		})();
 		this.frameTimer++;
+        this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this)
+        if(this.player.alive === false){
+            game.state.start('end')
+        }
+        
 	}
 	movePlayer() {
 		let directionX = 0;
@@ -642,4 +650,14 @@ glState.Game = class {
 			this.bulletPtr = 0;
 		}
 	}
+    gameover(){
+        game.time.events.remove(this.timer)
+        
+        this.bullets.children.forEach(i => {
+            i.body.moves = false;
+        })
+        this.player.body.moves = false;
+        //TU WSTAW ANIMACJIE ŚMIERCI 
+        this.player.alive = false
+    }
 };
