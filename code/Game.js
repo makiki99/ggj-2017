@@ -662,6 +662,8 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].waveY = this.frameTimer + opts.waveY;
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
+		this.bullets.children[this.bulletPtr].outOfboundsKill = true;
+		
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
