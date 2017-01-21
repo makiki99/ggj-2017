@@ -86,14 +86,10 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
 							})
-								this.pop.play();
-=======
-							});
+								
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
-						}
+						};
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
 							data.y = Math.random()*300+100;
@@ -130,13 +126,9 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
-							})
-								this.pop.play();
-=======
+							
 							});
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -174,13 +166,9 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
-							})
-								this.pop.play();
-=======
+							
 							});
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -218,13 +206,9 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
-							})
-								this.pop.play();
-=======
+							
 							});
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -262,13 +246,9 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
-							})
-								this.pop.play();
-=======
+							
 							});
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -324,13 +304,9 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
-							})
-								this.pop.play();
-=======
+							
 							});
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -393,11 +369,8 @@ glState.Game = class {
 									ay: 200,
 									angleVel: Math.random()*200-100
 								});
-<<<<<<< HEAD
-								this.pop.play();
-=======
+								
 								this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 							}
 						}
 						if (self.frameTimer%10 === 0) {
@@ -459,13 +432,9 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-<<<<<<< HEAD
-							})
-								this.pop.play();
-=======
+							
 							});
 							this.playRandomPop();
->>>>>>> refs/remotes/origin/makiki
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -534,15 +503,15 @@ glState.Game = class {
 		};
 	}
 	create() {
-<<<<<<< HEAD
-		this.bgpopcorn = this.game.add.audio('bgpopcorn');
-		this.pop = this.game.add.audio('pop');
+		this.microwave = game.add.audio('microwave');
+		this.microwave.play();
+		this.saltsound = game.add.audio('saltsound');
+		
 		
 		
 		
 		this.bulletPtr = 0;
 		glState.score = 0;
-=======
 		this.gameover = false;
 		this.gameoverFrame = 0;
 		this.popSound = game.add.audio('pop1');
@@ -550,7 +519,6 @@ glState.Game = class {
 		this.bulletPtr = 0;
 		glState.score = 0;
 		this.saltValue = 1000;
->>>>>>> refs/remotes/origin/makiki
 		this.frameTimer = 0;
 		this.spawnBullets = this.generateBullets();
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
@@ -580,13 +548,11 @@ glState.Game = class {
 		this.hiScoreInfo.text = "HI-SCORE:";
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
-<<<<<<< HEAD
 		this.displayhiScore.text = Math.floor(glState.hiScore);
 		
 		
 		
 		
-=======
 		this.displayhiScore.text = (() => {
 			let scoreStr = "" + Math.floor(glState.hiScore);
 			let retStr = "";
@@ -596,7 +562,6 @@ glState.Game = class {
 			retStr += scoreStr;
 			return retStr;
 		})();
->>>>>>> refs/remotes/origin/makiki
 		//bounds
 		this.bounds = [
 			this.add.sprite(null,0,0),
@@ -617,6 +582,7 @@ glState.Game = class {
 	update() {
 		if (this.gameover) {
 			if (this.gameoverFrame === 0) {
+				this.microwave.stop();
 				this.player.kill();
 				this.shoot(this.player,{
 					vy:-100,
@@ -645,12 +611,11 @@ glState.Game = class {
 						i.waveY += (i.baseWaveY+1)*2;
 					}
 				}
-<<<<<<< HEAD
-			}
-			if (i.angleVel) {
-				i.angle += i.angleVel/60;
-			}
-		});
+				if (i.angleVel) {
+					i.angle += i.angleVel/60;
+				}
+			});	
+		};
 		this.spawnBullets.next();
 		glState.score += 100/60;
 		let self = this;
@@ -670,18 +635,8 @@ glState.Game = class {
 		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
 			if(this.player.alive === false){
 			game.state.start('end');
-			}
-=======
-				if (i.baseWaveX > 0) {
-					if (this.frameTimer > i.waveX) {
-						i.body.acceleration.x = -i.body.acceleration.x;
-						i.waveX += (i.baseWaveX+1)*2;
-					}
-				}
-				if (i.angleVel) {
-					i.angle += i.angleVel/60;
-				}
-			});
+			};
+				
 			this.spawnBullets.next();
 			glState.score += 20;
 			this.displayscore.text = (() => {
@@ -695,8 +650,7 @@ glState.Game = class {
 			})();
 			this.frameTimer++;
 			this.physics.arcade.overlap(this.player, this.bullets, ()=>{this.gameover=true;});
-		}
->>>>>>> refs/remotes/origin/makiki
+		
 
 	}
 	movePlayer() {
@@ -796,6 +750,7 @@ glState.Game = class {
     }
     saltPick(){
         this.salt.kill();
+		this.saltsound.play();
         console.log(this.salt.alive);
 				glState.score += this.saltValue;
 				this.saltValue += 10;

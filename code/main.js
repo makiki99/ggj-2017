@@ -21,10 +21,12 @@ glState.MainState = class {
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = "COOKING";
 		this.lightsound = game.add.audio('light');
+		this.stsignal = game.add.audio('stsignal');
 	}
 	startGame(){
 		//animacja
 		this.lightsound.play();
+		this.stsignal.play();
 		game.state.start('game');
 	}
 	update() {

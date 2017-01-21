@@ -29,17 +29,18 @@ glState.Boot = class {
 		this.load.image("player","assets/player.png");
         this.load.image("salt", "assets/PJSalt.png");
 		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
-<<<<<<< HEAD
     	this.load.image('endscreen',"assets/endscreen.png");
     	this.load.audio('light','assets/swiatlo switch.wav');
 		this.load.audio('bgpopcorn', 'assets/bgpopcorn.wav');
 		this.load.audio('pop', 'assets/pop.wav');
-=======
-    this.load.image('endscreen',"assets/endscreen.png");
+    	this.load.image('endscreen',"assets/endscreen.png");
 		this.load.audio('light','assets/swiatlo switch.wav');
 		this.load.audio('lazorSound','assets/lazor.wav');
-    this.load.audio('pop1','assets/singlepop.wav');
->>>>>>> refs/remotes/origin/makiki
+    	this.load.audio('pop1','assets/singlepop.wav');
+		this.load.audio('stsignal', 'assets/stsignal.wav');
+		this.load.audio('microwave', 'assets/microwave.wav');
+		this.load.audio('bibend', 'assets/bibend.wav');
+		this.load.audio('saltsound', 'assets/saltsound.wav');
 	}
 	update() {
 		game.state.start('main');
