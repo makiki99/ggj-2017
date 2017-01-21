@@ -18,33 +18,69 @@ glState.Game = class {
 			while (true) {
 				switch (pattern) {
 					case 0:
+						if (self.frameTimer >= 100){
+							pattern = 1;
+						}
+						yield;
+						break;
+					case 1:
 						data.x = Math.floor(Math.random()*2)*600+50;
-						data.y = Math.random()*400+100;
+						data.y = Math.random()*300+100;
 						if (data.x > 400) {
 							data.vx = -1;
 						} else {
 							data.vx = 1;
 						}
 						for (let i = 0; i < 10; i++) {
-							self.shoot(self.bowl, {
-								vx: data.vx*175,
-								x: data.x,
-								y: data.y,
-								ay: 75,
-								absoluteX: true,
-								absoluteY: true,
-								img: "laser",
-								waveY: 10
-							});
+							if (i%3 === 0) {
+								self.shoot(self.bowl, {
+									vx: data.vx*175,
+									x: data.x,
+									y: data.y,
+									ay: 150,
+									absoluteX: true,
+									absoluteY: true,
+									img: "fire",
+									waveY: 8
+								});
+							}
 							yield;
 						}
-						for (var i = 0; i < 10; i++) {
+						for (let i = 0; i < 10; i++) {
 							yield;
 						}
 						yield;
 						if (self.frameTimer >= 600){
-							pattern = 1;
+							pattern = 2;
 						}
+						break;
+					case 2:
+						data.x = Math.floor(Math.random()*2)*600+50;
+						data.y = Math.random()*300+100;
+						if (data.x > 400) {
+							data.vx = -1;
+						} else {
+							data.vx = 1;
+						}
+						for (let i = 0; i < 10; i++) {
+							if (i%3 === 0) {
+								self.shoot(self.bowl, {
+									vx: data.vx*175,
+									x: data.x,
+									y: data.y,
+									ay: 150,
+									absoluteX: true,
+									absoluteY: true,
+									img: "fire",
+									waveY: 8
+								});
+							}
+							yield;
+						}
+						yield;
+						// if (self.frameTimer >= 600){
+						// 	pattern = 2;
+						// }
 						break;
 					default:
 						console.error("something went wrong with pattern id - reverting to default");
