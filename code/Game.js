@@ -14,7 +14,7 @@ glState.Game = class {
 				switch (pattern) {
 					case 0:
 						if (self.frameTimer >= 100){
-							pattern = 10;
+							pattern = 1;
 						}
 						yield;
 						break;
@@ -482,7 +482,8 @@ glState.Game = class {
 	}
 	create() {
 		this.bulletPtr = 0;
-		this.score = 0;
+		glState.score = 0;
+		this.saltValue = 1000;
 		this.frameTimer = 0;
 		this.spawnBullets = this.generateBullets();
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
@@ -511,7 +512,15 @@ glState.Game = class {
 		this.hiScoreInfo.text = "HI-SCORE:";
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
-		this.displayhiScore.text = "000000000";
+		this.displayhiScore.text = (() => {
+			let scoreStr = "" + Math.floor(glState.hiScore);
+			let retStr = "";
+			for (var i = 0; i < 9-scoreStr.length; i++) {
+				retStr += "0";
+			}
+			retStr += scoreStr;
+			return retStr;
+		})();
 		//bounds
 		this.bounds = [
 			this.add.sprite(null,0,0),
@@ -564,10 +573,9 @@ glState.Game = class {
 			}
 		});
 		this.spawnBullets.next();
-		this.score = Math.floor(this.frameTimer * 100 / 60);
-		let self = this;
+		glState.score += 20;
 		this.displayscore.text = (() => {
-			let scoreStr = "" + self.score;
+			let scoreStr = "" + Math.floor(glState.score);
 			let retStr = "";
 			for (var i = 0; i < 9-scoreStr.length; i++) {
 				retStr += "0";
@@ -670,18 +678,25 @@ glState.Game = class {
         this.salt.anchor.setTo(0.5,0.5);
         this.salt.alive=true;
     }
+		resetSalt(){
+			this.salt.reset(
+				Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT+this.BORDER_LEFT,
+				Math.random()*this.BORDER_DOWN-this.BORDER_UP+this.BORDER_UP
+			);
+			this.salt.revive();
+		}
     checkAlive(){
         if(this.salt.alive===false){
-            this.createSalt();
+            this.resetSalt();
         }
     }
     saltKill(){
         this.salt.kill();
-        this.salt.alive=false;
     }
     saltPick(){
         this.salt.kill();
-        this.salt.alive=false;
         console.log(this.salt.alive);
+				glState.score += this.saltValue;
+				this.saltValue += 10;
     }
 };
