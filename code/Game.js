@@ -86,7 +86,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -124,7 +125,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -162,7 +164,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -200,7 +203,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -238,7 +242,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -293,7 +298,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -355,6 +361,7 @@ glState.Game = class {
 									ay: 200,
 									angleVel: Math.random()*200-100
 								});
+								this.pop.play();
 							}
 						}
 						if (self.frameTimer%10 === 0) {
@@ -415,7 +422,8 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							});
+							})
+								this.pop.play();
 						}
 						if (self.frameTimer%10 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
@@ -481,8 +489,13 @@ glState.Game = class {
 		};
 	}
 	create() {
+		this.bgpopcorn = this.game.add.audio('bgpopcorn');
+		this.pop = this.game.add.audio('pop');
+		
+		
+		
 		this.bulletPtr = 0;
-		this.score = 0;
+		glState.score = 0;
 		this.frameTimer = 0;
 		this.spawnBullets = this.generateBullets();
 		this.bounds = new Phaser.Rectangle(68, 75, 568, 448);
@@ -511,7 +524,11 @@ glState.Game = class {
 		this.hiScoreInfo.text = "HI-SCORE:";
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
-		this.displayhiScore.text = "000000000";
+		this.displayhiScore.text = Math.floor(glState.hiScore);
+		
+		
+		
+		
 		//bounds
 		this.bounds = [
 			this.add.sprite(null,0,0),
@@ -564,21 +581,24 @@ glState.Game = class {
 			}
 		});
 		this.spawnBullets.next();
-		this.score = Math.floor(this.frameTimer * 100 / 60);
+		glState.score += 100/60;
 		let self = this;
 		this.displayscore.text = (() => {
-			let scoreStr = "" + self.score;
+			let scoreStr = "" +  Math.floor(glState.score);
 			let retStr = "";
 			for (var i = 0; i < 9-scoreStr.length; i++) {
 				retStr += "0";
+				
 			}
 			retStr += scoreStr;
 			return retStr;
 		})();
+		
+		
 		this.frameTimer++;
 		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
 			if(this.player.alive === false){
-				game.state.start('end');
+			game.state.start('end');
 			}
 
 	}
@@ -648,6 +668,8 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].waveY = this.frameTimer + opts.waveY;
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
+		this.bullets.children[this.bulletPtr].outOfboundsKill = true;
+		
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {

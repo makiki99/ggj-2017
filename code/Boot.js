@@ -29,8 +29,10 @@ glState.Boot = class {
 		this.load.image("player","assets/player.png");
         this.load.image("salt", "assets/fire_placeholder.png")
 		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
-    this.load.image('endscreen',"assets/endscreen.png");
-    this.load.audio('light','assets/swiatlo switch.wav')
+    	this.load.image('endscreen',"assets/endscreen.png");
+    	this.load.audio('light','assets/swiatlo switch.wav');
+		this.load.audio('bgpopcorn', 'assets/bgpopcorn.wav');
+		this.load.audio('pop', 'assets/pop.wav');
 	}
 	update() {
 		game.state.start('main');
