@@ -86,10 +86,10 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							})
-								
+							});
+
 							this.playRandomPop();
-						};
+						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
 							data.y = Math.random()*300+100;
@@ -126,7 +126,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -166,7 +166,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -206,7 +206,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -246,7 +246,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -304,7 +304,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -369,7 +369,7 @@ glState.Game = class {
 									ay: 200,
 									angleVel: Math.random()*200-100
 								});
-								
+
 								this.playRandomPop();
 							}
 						}
@@ -432,7 +432,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -503,18 +503,21 @@ glState.Game = class {
 		};
 	}
 	create() {
+		this.add.sprite(637,470,"sticky");
 		this.microwave = game.add.audio('microwave');
+		this.microwave.loop = true;
 		this.microwave.play();
 		this.saltsound = game.add.audio('saltsound');
-		
-		
-		
-		
+		this.bibend = game.add.audio('bibend');
 		this.bulletPtr = 0;
 		glState.score = 0;
 		this.gameover = false;
 		this.gameoverFrame = 0;
-		this.popSound = game.add.audio('pop1');
+		this.popSound1 = game.add.audio('pop1');
+		this.popSound2 = game.add.audio('pop2');
+		this.popSound3 = game.add.audio('pop3');
+		this.popSound4 = game.add.audio('pop4');
+		this.popSound5 = game.add.audio('pop5');
 		this.lazorSound = game.add.audio('lazorSound');
 		this.bulletPtr = 0;
 		glState.score = 0;
@@ -527,9 +530,14 @@ glState.Game = class {
 		game.physics.arcade.enable(this.player);
 		this.player.body.setCircle(6);
 		game.physics.arcade.enable(this.player);
-		this.bowl = this.add.sprite(240,340,"bowl");
+		this.bowlAnim = 0;
+		this.bowlSpriteArray = [];
+		for (let i = 0; i <= 9; i++) {
+			this.bowlSpriteArray.push('bowl'+i);
+		}
+		this.bowl = this.add.sprite(229,350,this.bowlSpriteArray[0]);
 		this.bullets = this.add.group();
-		for (var i = 0; i < 500; i++) {
+		for (let i = 0; i < 500; i++) {
 			this.bullets.add(new Bullet());
 		}
 		this.add.sprite(68,54,"glass");
@@ -549,10 +557,7 @@ glState.Game = class {
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = Math.floor(glState.hiScore);
-		
-		
-		
-		
+
 		this.displayhiScore.text = (() => {
 			let scoreStr = "" + Math.floor(glState.hiScore);
 			let retStr = "";
@@ -590,8 +595,16 @@ glState.Game = class {
 					ay: 200,
 					angleVel: Math.random()*200-100
 				});
+				this.playRandomPop();
+				this.bibend.play();
+				if (glState.score > glState.hiScore) {
+					glState.hiScore = glState.score;
+				}
 			}
-			this.gameoverFrame--;
+			if (this.gameoverFrame === 300) {
+				game.state.start("main");
+			}
+			this.gameoverFrame++;
 		} else {
 			this.checkAlive();
 			this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null, this);
@@ -599,44 +612,11 @@ glState.Game = class {
 			this.bounds.forEach(i => {
 				game.physics.arcade.collide(this.player,i);
 				i.visible = false;
-
 			});
 			this.bounds.forEach(i => {
 				this.physics.arcade.overlap(this.salt,i,this.resetSalt, null, this);
 			});
-			this.bullets.children.forEach(i => {
-				if (i.baseWaveY > 0) {
-					if (this.frameTimer > i.waveY) {
-						i.body.acceleration.y = -i.body.acceleration.y;
-						i.waveY += (i.baseWaveY+1)*2;
-					}
-				}
-				if (i.angleVel) {
-					i.angle += i.angleVel/60;
-				}
-			});	
-		};
-		this.spawnBullets.next();
-		glState.score += 100/60;
-		let self = this;
-		this.displayscore.text = (() => {
-			let scoreStr = "" +  Math.floor(glState.score);
-			let retStr = "";
-			for (var i = 0; i < 9-scoreStr.length; i++) {
-				retStr += "0";
-				
-			}
-			retStr += scoreStr;
-			return retStr;
-		})();
-		
-		
-		this.frameTimer++;
-		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
-			if(this.player.alive === false){
-			game.state.start('end');
-			};
-				
+
 			this.spawnBullets.next();
 			glState.score += 20;
 			this.displayscore.text = (() => {
@@ -650,8 +630,57 @@ glState.Game = class {
 			})();
 			this.frameTimer++;
 			this.physics.arcade.overlap(this.player, this.bullets, ()=>{this.gameover=true;});
-		
-
+			this.bowlAnim = this.bowlAnim+1;
+			let bowlAnimID = Math.floor(this.bowlAnim/4)%18;
+			switch (bowlAnimID) {
+				case 0:
+					this.bowl.loadTexture("bowl9",0);
+					break;
+				case 1:
+					this.bowl.loadTexture("bowl1",0);
+					break;
+				case 2:
+					this.bowl.loadTexture("bowl2",0);
+					break;
+				case 3:
+					this.bowl.loadTexture("bowl3",0);
+					break;
+				case 4:
+					this.bowl.loadTexture("bowl4",0);
+					break;
+				case 14:
+					this.bowl.loadTexture("bowl5",0);
+					break;
+				case 15:
+					this.bowl.loadTexture("bowl6",0);
+					break;
+				case 16:
+					this.bowl.loadTexture("bowl7",0);
+					break;
+				case 17:
+					this.bowl.loadTexture("bowl8",0);
+					break;
+				default:
+				this.bowl.loadTexture("bowl0",0);
+			}
+		}
+		this.bullets.children.forEach(i => {
+			if (i.baseWaveY > 0) {
+				if (this.frameTimer > i.waveY) {
+					i.body.acceleration.y = -i.body.acceleration.y;
+					i.waveY += (i.baseWaveY+1)*2;
+				}
+			}
+			if (i.baseWaveX > 0) {
+				if (this.frameTimer > i.waveX) {
+					i.body.acceleration.x = -i.body.acceleration.x;
+					i.waveX += (i.baseWaveX+1)*2;
+				}
+			}
+			if (i.angleVel) {
+				i.angle += i.angleVel/60;
+			}
+		});
 	}
 	movePlayer() {
 		let directionX = 0;
@@ -720,7 +749,7 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
 		this.bullets.children[this.bulletPtr].outOfboundsKill = true;
-		
+
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
@@ -756,6 +785,7 @@ glState.Game = class {
 				this.saltValue += 10;
     }
 		playRandomPop(){
-			this.popSound.play();
+			let popID = Math.floor(Math.random()*5)+1;
+			this["popSound"+popID].play();
 		}
 };
