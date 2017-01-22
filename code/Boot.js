@@ -2,6 +2,9 @@ var glState = glState||{};
 
 glState.score = 0;
 glState.hiScore = 50000;
+if (localStorage.POP_SCORE) {
+	glState.hiScore = +localStorage.POP_SCORE;
+}
 var WebFontConfig ={
 	google: {
 		families: ["VT323"]

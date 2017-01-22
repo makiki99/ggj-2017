@@ -599,6 +599,7 @@ glState.Game = class {
 				this.bibend.play();
 				if (glState.score > glState.hiScore) {
 					glState.hiScore = glState.score;
+					localStorage.POP_SCORE = glState.hiScore;
 				}
 			}
 			if (this.gameoverFrame === 300) {
