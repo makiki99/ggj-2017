@@ -86,10 +86,10 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							})
-								
+							});
+
 							this.playRandomPop();
-						};
+						}
 						if (self.frameTimer%12 === 0) {
 							data.x = Math.floor(Math.random()*2)*600+50;
 							data.y = Math.random()*300+100;
@@ -126,7 +126,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -166,7 +166,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -206,7 +206,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -246,7 +246,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -304,7 +304,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -369,7 +369,7 @@ glState.Game = class {
 									ay: 200,
 									angleVel: Math.random()*200-100
 								});
-								
+
 								this.playRandomPop();
 							}
 						}
@@ -432,7 +432,7 @@ glState.Game = class {
 								img: "popcorn" + Math.floor(Math.random()*5+1),
 								ay: 200,
 								angleVel: Math.random()*200-100
-							
+
 							});
 							this.playRandomPop();
 						}
@@ -506,10 +506,10 @@ glState.Game = class {
 		this.microwave = game.add.audio('microwave');
 		this.microwave.play();
 		this.saltsound = game.add.audio('saltsound');
-		
-		
-		
-		
+
+
+
+
 		this.bulletPtr = 0;
 		glState.score = 0;
 		this.gameover = false;
@@ -549,10 +549,10 @@ glState.Game = class {
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = Math.floor(glState.hiScore);
-		
-		
-		
-		
+
+
+
+
 		this.displayhiScore.text = (() => {
 			let scoreStr = "" + Math.floor(glState.hiScore);
 			let retStr = "";
@@ -590,8 +590,15 @@ glState.Game = class {
 					ay: 200,
 					angleVel: Math.random()*200-100
 				});
+				this.playRandomPop();
+				if (glState.score > glState.hiScore) {
+					glState.hiScore = glState.score;
+				}
 			}
-			this.gameoverFrame--;
+			if (this.gameoverFrame === 300) {
+				game.state.start("main");
+			}
+			this.gameoverFrame++;
 		} else {
 			this.checkAlive();
 			this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null, this);
@@ -599,44 +606,11 @@ glState.Game = class {
 			this.bounds.forEach(i => {
 				game.physics.arcade.collide(this.player,i);
 				i.visible = false;
-
 			});
 			this.bounds.forEach(i => {
 				this.physics.arcade.overlap(this.salt,i,this.resetSalt, null, this);
 			});
-			this.bullets.children.forEach(i => {
-				if (i.baseWaveY > 0) {
-					if (this.frameTimer > i.waveY) {
-						i.body.acceleration.y = -i.body.acceleration.y;
-						i.waveY += (i.baseWaveY+1)*2;
-					}
-				}
-				if (i.angleVel) {
-					i.angle += i.angleVel/60;
-				}
-			});	
-		};
-		this.spawnBullets.next();
-		glState.score += 100/60;
-		let self = this;
-		this.displayscore.text = (() => {
-			let scoreStr = "" +  Math.floor(glState.score);
-			let retStr = "";
-			for (var i = 0; i < 9-scoreStr.length; i++) {
-				retStr += "0";
-				
-			}
-			retStr += scoreStr;
-			return retStr;
-		})();
-		
-		
-		this.frameTimer++;
-		this.physics.arcade.overlap(this.player, this.bullets, this.gameover, null, this);
-			if(this.player.alive === false){
-			game.state.start('end');
-			};
-				
+
 			this.spawnBullets.next();
 			glState.score += 20;
 			this.displayscore.text = (() => {
@@ -650,7 +624,25 @@ glState.Game = class {
 			})();
 			this.frameTimer++;
 			this.physics.arcade.overlap(this.player, this.bullets, ()=>{this.gameover=true;});
-		
+
+		}
+		this.bullets.children.forEach(i => {
+			if (i.baseWaveY > 0) {
+				if (this.frameTimer > i.waveY) {
+					i.body.acceleration.y = -i.body.acceleration.y;
+					i.waveY += (i.baseWaveY+1)*2;
+				}
+			}
+			if (i.baseWaveX > 0) {
+				if (this.frameTimer > i.waveX) {
+					i.body.acceleration.x = -i.body.acceleration.x;
+					i.waveX += (i.baseWaveX+1)*2;
+				}
+			}
+			if (i.angleVel) {
+				i.angle += i.angleVel/60;
+			}
+		});
 
 	}
 	movePlayer() {
@@ -720,7 +712,7 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
 		this.bullets.children[this.bulletPtr].outOfboundsKill = true;
-		
+
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
