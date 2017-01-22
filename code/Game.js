@@ -504,17 +504,19 @@ glState.Game = class {
 	}
 	create() {
 		this.microwave = game.add.audio('microwave');
+		this.microwave.loop = true;
 		this.microwave.play();
 		this.saltsound = game.add.audio('saltsound');
-
-
-
-
+		this.bibend = game.add.audio('bibend');
 		this.bulletPtr = 0;
 		glState.score = 0;
 		this.gameover = false;
 		this.gameoverFrame = 0;
-		this.popSound = game.add.audio('pop1');
+		this.popSound1 = game.add.audio('pop1');
+		this.popSound2 = game.add.audio('pop2');
+		this.popSound3 = game.add.audio('pop3');
+		this.popSound4 = game.add.audio('pop4');
+		this.popSound5 = game.add.audio('pop5');
 		this.lazorSound = game.add.audio('lazorSound');
 		this.bulletPtr = 0;
 		glState.score = 0;
@@ -549,9 +551,6 @@ glState.Game = class {
 		this.displayhiScore = this.game.add.text(684, 152, "", { fill:"#00ff00" } );
 		this.displayhiScore.font = 'VT323';
 		this.displayhiScore.text = Math.floor(glState.hiScore);
-
-
-
 
 		this.displayhiScore.text = (() => {
 			let scoreStr = "" + Math.floor(glState.hiScore);
@@ -591,6 +590,7 @@ glState.Game = class {
 					angleVel: Math.random()*200-100
 				});
 				this.playRandomPop();
+				this.bibend.play();
 				if (glState.score > glState.hiScore) {
 					glState.hiScore = glState.score;
 				}
@@ -748,6 +748,7 @@ glState.Game = class {
 				this.saltValue += 10;
     }
 		playRandomPop(){
-			this.popSound.play();
+			let popID = Math.floor(Math.random()*5)+1;
+			this["popSound"+popID].play();
 		}
 };

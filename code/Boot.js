@@ -35,7 +35,11 @@ glState.Boot = class {
     this.load.image('endscreen',"assets/endscreen.png");
 		this.load.audio('light','assets/swiatlo switch.wav');
 		this.load.audio('lazorSound','assets/lazor.wav');
-    	this.load.audio('pop1','assets/singlepop.wav');
+		this.load.audio('pop1','assets/pop1.wav');
+		this.load.audio('pop2','assets/pop2.wav');
+		this.load.audio('pop3','assets/pop3.wav');
+		this.load.audio('pop4','assets/pop4.wav');
+		this.load.audio('pop5','assets/pop5.wav');
 		this.load.audio('stsignal', 'assets/stsignal.wav');
 		this.load.audio('microwave', 'assets/microwave.wav');
 		this.load.audio('bibend', 'assets/bibend.wav');
