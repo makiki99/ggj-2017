@@ -503,7 +503,6 @@ glState.Game = class {
 		};
 	}
 	create() {
-		this.add.sprite(637,470,"sticky");
 		this.microwave = game.add.audio('microwave');
 		this.microwave.loop = true;
 		this.microwave.play();
@@ -543,6 +542,7 @@ glState.Game = class {
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
 		this.createSalt();
+		this.add.sprite(637,470,"sticky");
 
 		//Display score
 		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"#00ff00" } );
@@ -764,8 +764,8 @@ glState.Game = class {
     }
 		resetSalt(){
 			this.salt.reset(
-				Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT+this.BORDER_LEFT,
-				Math.random()*this.BORDER_DOWN-this.BORDER_UP+this.BORDER_UP
+				Math.random()*440+130,
+				Math.random()*160+120
 			);
 			this.salt.revive();
 		}
