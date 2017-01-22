@@ -2,9 +2,27 @@ var glState = glState||{};
 
 glState.score = 0;
 glState.hiScore = 50000;
+if (localStorage.POP_SCORE) {
+	glState.hiScore = +localStorage.POP_SCORE;
+}
 var WebFontConfig ={
 	google: {
 		families: ["VT323"]
+	}
+};
+
+glState.PreBoot = class {
+	constructor() {
+
+	}
+	preload() {
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		this.load.image("loadingScreen","assets/loading.png");
+	}
+	create(){
+	}
+	update(){
+		game.state.start('boot');
 	}
 };
 
@@ -12,8 +30,9 @@ glState.Boot = class {
 	constructor() {
 	}
 	preload() {
+		this.add.sprite(0,0,"loadingScreen");
 		game.physics.startSystem(Phaser.Physics.ARCADE);
-		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
 		this.load.image("bg1","assets/mainmenu1.png");
 		this.load.image("bg2","assets/mainmenu2.png");
 		this.load.image("glass","assets/glass.png");
@@ -27,7 +46,6 @@ glState.Boot = class {
 		this.load.image("popcorn5","assets/popcorn5.png");
 		this.load.image("player","assets/player.png");
         this.load.image("salt", "assets/PJSalt.png");
-		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
     	this.load.image('endscreen',"assets/endscreen.png");
     	this.load.audio('light','assets/swiatlo switch.wav');
 		this.load.audio('bgpopcorn', 'assets/bgpopcorn.wav');

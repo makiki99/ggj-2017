@@ -503,7 +503,6 @@ glState.Game = class {
 		};
 	}
 	create() {
-		this.add.sprite(637,470,"sticky");
 		this.microwave = game.add.audio('microwave');
 		this.microwave.loop = true;
 		this.microwave.play();
@@ -543,6 +542,7 @@ glState.Game = class {
 		this.add.sprite(68,54,"glass");
 		this.add.sprite(0,0,"border");
 		this.createSalt();
+		this.add.sprite(637,470,"sticky");
 
 		//Display score
 		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"#00ff00" } );
@@ -599,6 +599,7 @@ glState.Game = class {
 				this.bibend.play();
 				if (glState.score > glState.hiScore) {
 					glState.hiScore = glState.score;
+					localStorage.POP_SCORE = glState.hiScore;
 				}
 			}
 			if (this.gameoverFrame === 300) {
@@ -749,7 +750,23 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
 		this.bullets.children[this.bulletPtr].outOfboundsKill = true;
-
+		switch (opts.img) {
+			case "fire":
+				this.bullets.children[this.bulletPtr].body.setCircle(6);
+				break;
+			case "popcorn1":
+			case "popcorn2":
+			case "popcorn3":
+			case "popcorn4":
+			case "popcorn5":
+				this.bullets.children[this.bulletPtr].body.setCircle(12);
+				break;
+			case "lazor":
+				this.bullets.children[this.bulletPtr].body.setCircle(12);
+				break;
+			default:
+				this.bullets.children[this.bulletPtr].body.setCircle(6);
+		}
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
@@ -764,8 +781,8 @@ glState.Game = class {
     }
 		resetSalt(){
 			this.salt.reset(
-				Math.random()*this.BORDER_RIGHT-this.BORDER_LEFT+this.BORDER_LEFT,
-				Math.random()*this.BORDER_DOWN-this.BORDER_UP+this.BORDER_UP
+				Math.random()*440+130,
+				Math.random()*160+120
 			);
 			this.salt.revive();
 		}
