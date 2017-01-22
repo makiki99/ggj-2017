@@ -749,7 +749,23 @@ glState.Game = class {
 		this.bullets.children[this.bulletPtr].waveX = this.frameTimer + opts.waveX;
 		this.bullets.children[this.bulletPtr].loadTexture(opts.img, 0);
 		this.bullets.children[this.bulletPtr].outOfboundsKill = true;
-
+		switch (opts.img) {
+			case "fire":
+				this.bullets.children[this.bulletPtr].body.setCircle(6);
+				break;
+			case "popcorn1":
+			case "popcorn2":
+			case "popcorn3":
+			case "popcorn4":
+			case "popcorn5":
+				this.bullets.children[this.bulletPtr].body.setCircle(12);
+				break;
+			case "lazor":
+				this.bullets.children[this.bulletPtr].body.setCircle(12);
+				break;
+			default:
+				this.bullets.children[this.bulletPtr].body.setCircle(6);
+		}
 		this.bullets.children[this.bulletPtr].revive();
 		this.bulletPtr++;
 		if (this.bulletPtr >= this.bullets.length) {
