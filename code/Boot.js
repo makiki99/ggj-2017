@@ -17,7 +17,6 @@ glState.Boot = class {
 		this.load.image("bg1","assets/mainmenu1.png");
 		this.load.image("bg2","assets/mainmenu2.png");
 		this.load.image("glass","assets/glass.png");
-		this.load.image("bowl","assets/bowl.png");
 		this.load.image("border","assets/border.png");
 		this.load.image("fire","assets/fire.png");
 		this.load.image("lazor","assets/lazor.png");
@@ -44,6 +43,10 @@ glState.Boot = class {
 		this.load.audio('microwave', 'assets/microwave.wav');
 		this.load.audio('bibend', 'assets/bibend.wav');
 		this.load.audio('saltsound', 'assets/saltsound.wav');
+		this.load.image('sticky', 'assets/move.png');
+		for (var i = 0; i <= 9; i++) {
+			this.load.image('bowl'+i,'assets/bowl/miska'+i+'.png');
+		}
 	}
 	update() {
 		game.state.start('main');

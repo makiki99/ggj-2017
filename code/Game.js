@@ -503,6 +503,7 @@ glState.Game = class {
 		};
 	}
 	create() {
+		this.add.sprite(637,470,"sticky");
 		this.microwave = game.add.audio('microwave');
 		this.microwave.loop = true;
 		this.microwave.play();
@@ -529,9 +530,14 @@ glState.Game = class {
 		game.physics.arcade.enable(this.player);
 		this.player.body.setCircle(6);
 		game.physics.arcade.enable(this.player);
-		this.bowl = this.add.sprite(240,340,"bowl");
+		this.bowlAnim = 0;
+		this.bowlSpriteArray = [];
+		for (let i = 0; i <= 9; i++) {
+			this.bowlSpriteArray.push('bowl'+i);
+		}
+		this.bowl = this.add.sprite(229,350,this.bowlSpriteArray[0]);
 		this.bullets = this.add.group();
-		for (var i = 0; i < 500; i++) {
+		for (let i = 0; i < 500; i++) {
 			this.bullets.add(new Bullet());
 		}
 		this.add.sprite(68,54,"glass");
@@ -624,7 +630,39 @@ glState.Game = class {
 			})();
 			this.frameTimer++;
 			this.physics.arcade.overlap(this.player, this.bullets, ()=>{this.gameover=true;});
-
+			this.bowlAnim = this.bowlAnim+1;
+			let bowlAnimID = Math.floor(this.bowlAnim/4)%18;
+			switch (bowlAnimID) {
+				case 0:
+					this.bowl.loadTexture("bowl9",0);
+					break;
+				case 1:
+					this.bowl.loadTexture("bowl1",0);
+					break;
+				case 2:
+					this.bowl.loadTexture("bowl2",0);
+					break;
+				case 3:
+					this.bowl.loadTexture("bowl3",0);
+					break;
+				case 4:
+					this.bowl.loadTexture("bowl4",0);
+					break;
+				case 14:
+					this.bowl.loadTexture("bowl5",0);
+					break;
+				case 15:
+					this.bowl.loadTexture("bowl6",0);
+					break;
+				case 16:
+					this.bowl.loadTexture("bowl7",0);
+					break;
+				case 17:
+					this.bowl.loadTexture("bowl8",0);
+					break;
+				default:
+				this.bowl.loadTexture("bowl0",0);
+			}
 		}
 		this.bullets.children.forEach(i => {
 			if (i.baseWaveY > 0) {
@@ -643,7 +681,6 @@ glState.Game = class {
 				i.angle += i.angleVel/60;
 			}
 		});
-
 	}
 	movePlayer() {
 		let directionX = 0;

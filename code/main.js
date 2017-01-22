@@ -8,6 +8,7 @@ glState.MainState = class {
 		this.add.sprite(68,54,"glass");
 		this.spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.spacebar.onDown.add(this.startGame, this);
+		this.add.sprite(637,470,"sticky");
 		this.scoreInfo = this.game.add.text(660, 86, "", { fill:"lime" } );
 		this.scoreInfo.font = 'VT323';
 		this.scoreInfo.text = "PRESS";
