@@ -28,7 +28,7 @@ glState.Boot = class {
 		this.load.image("popcorn5","assets/popcorn5.png");
 		this.load.image("player","assets/player.png");
         this.load.image("salt", "assets/PJSalt.png");
-		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
+		this.load.script("webfont", "//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js");
     this.load.image('endscreen',"assets/endscreen.png");
 		this.load.audio('light','assets/swiatlo switch.wav');
 		this.load.audio('lazorSound','assets/lazor.wav');

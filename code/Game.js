@@ -567,8 +567,15 @@ glState.Game = class {
 					ay: 200,
 					angleVel: Math.random()*200-100
 				});
+				this.playRandomPop();
+				if (glState.score > glState.hiScore) {
+					glState.hiScore = glState.score;
+				}
 			}
-			this.gameoverFrame--;
+			if (this.gameoverFrame === 300) {
+				game.state.start("main");
+			}
+			this.gameoverFrame++;
 		} else {
 			this.checkAlive();
 			this.physics.arcade.overlap(this.player, this.salt, this.saltPick, null, this);
@@ -576,27 +583,9 @@ glState.Game = class {
 			this.bounds.forEach(i => {
 				game.physics.arcade.collide(this.player,i);
 				i.visible = false;
-
 			});
 			this.bounds.forEach(i => {
 				this.physics.arcade.overlap(this.salt,i,this.resetSalt, null, this);
-			});
-			this.bullets.children.forEach(i => {
-				if (i.baseWaveY > 0) {
-					if (this.frameTimer > i.waveY) {
-						i.body.acceleration.y = -i.body.acceleration.y;
-						i.waveY += (i.baseWaveY+1)*2;
-					}
-				}
-				if (i.baseWaveX > 0) {
-					if (this.frameTimer > i.waveX) {
-						i.body.acceleration.x = -i.body.acceleration.x;
-						i.waveX += (i.baseWaveX+1)*2;
-					}
-				}
-				if (i.angleVel) {
-					i.angle += i.angleVel/60;
-				}
 			});
 			this.spawnBullets.next();
 			glState.score += 20;
@@ -612,6 +601,23 @@ glState.Game = class {
 			this.frameTimer++;
 			this.physics.arcade.overlap(this.player, this.bullets, ()=>{this.gameover=true;});
 		}
+		this.bullets.children.forEach(i => {
+			if (i.baseWaveY > 0) {
+				if (this.frameTimer > i.waveY) {
+					i.body.acceleration.y = -i.body.acceleration.y;
+					i.waveY += (i.baseWaveY+1)*2;
+				}
+			}
+			if (i.baseWaveX > 0) {
+				if (this.frameTimer > i.waveX) {
+					i.body.acceleration.x = -i.body.acceleration.x;
+					i.waveX += (i.baseWaveX+1)*2;
+				}
+			}
+			if (i.angleVel) {
+				i.angle += i.angleVel/60;
+			}
+		});
 
 	}
 	movePlayer() {
